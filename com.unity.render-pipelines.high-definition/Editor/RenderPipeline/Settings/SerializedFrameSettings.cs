@@ -18,9 +18,6 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
         public SerializedProperty enableReprojectionForVolumetrics;
         public SerializedProperty enableLightLayers;
 
-        public SerializedProperty diffuseGlobalDimmer;
-        public SerializedProperty specularGlobalDimmer;
-
         public SerializedProperty litShaderMode;
         public SerializedProperty enableDepthPrepassWithDeferredRendering;
 
@@ -415,8 +412,6 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             enableVolumetrics = root.Find((FrameSettings d) => d.volumetrics);
             enableReprojectionForVolumetrics = root.Find((FrameSettings d) => d.reprojectionForVolumetrics);
             enableLightLayers = root.Find((FrameSettings d) => d.lightLayers);
-            diffuseGlobalDimmer = root.Find((FrameSettings d) => d.diffuseGlobalDimmer);
-            specularGlobalDimmer = root.Find((FrameSettings d) => d.specularGlobalDimmer);
             litShaderMode = root.Find((FrameSettings d) => d.shaderLitMode);
             enableDepthPrepassWithDeferredRendering = root.Find((FrameSettings d) => d.depthPrepassWithDeferredRendering);
             enableTransparentPrepass = root.Find((FrameSettings d) => d.transparentPrepass);

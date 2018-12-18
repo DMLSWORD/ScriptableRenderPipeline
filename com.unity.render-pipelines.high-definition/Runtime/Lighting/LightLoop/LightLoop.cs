@@ -335,7 +335,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
         static int[] s_TempScreenDimArray = new int[2]; // Used to avoid GC stress when calling SetComputeIntParams
 
-        FrameSettings m_FrameSettings = null;
+        FrameSettings m_FrameSettings;
         RenderPipelineResources m_Resources = null;
 
         ContactShadows m_ContactShadows = null;
@@ -664,7 +664,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
             // Cluster
             {
-                var clustPrepassSourceIdx = m_FrameSettings.lightLoopSettings.enableBigTilePrepass ? ClusterPrepassSource.BigTile : ClusterPrepassSource.None;
+                var clustPrepassSourceIdx = m_FrameSettings.bigTilePrepass ? ClusterPrepassSource.BigTile : ClusterPrepassSource.None;
                 var clustDepthSourceIdx = ClusterDepthSource.NoDepth;
                 if (k_UseDepthBuffer)
                 {

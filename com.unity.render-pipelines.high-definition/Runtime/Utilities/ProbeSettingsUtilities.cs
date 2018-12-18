@@ -94,8 +94,8 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                     hd.asset.GetBakedOrCustomReflectionFrameSettings().CopyTo(s_ApplySettings_TMP);
                     break;
             }
-            cameraSettings.frameSettings.ApplyOverrideOn(s_ApplySettings_TMP);
-            s_ApplySettings_TMP.CopyTo(cameraSettings.frameSettings);
+            cameraSettings.renderingPathCustomFrameSettings.ApplyOverrideOn(s_ApplySettings_TMP);
+            s_ApplySettings_TMP.CopyTo(cameraSettings.renderingPathCustomFrameSettings);
         }
 
         internal static void ApplyMirroredReferenceTransform(

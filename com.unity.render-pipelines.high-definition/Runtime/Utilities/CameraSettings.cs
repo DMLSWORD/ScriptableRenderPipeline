@@ -163,7 +163,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         {
             bufferClearing = BufferClearing.@default,
             culling = Culling.@default,
-            frameSettings = new FrameSettings(),
+            renderingPathCustomFrameSettings = FrameSettings.defaultCamera,
             frustum = Frustum.@default,
             postProcessLayer = null,
             customRenderingSettings = false,
@@ -175,7 +175,9 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         /// <summary>Override rendering settings if true.</summary>
         public bool customRenderingSettings;
         /// <summary>Frame settings to use.</summary>
-        public FrameSettings frameSettings;
+        public FrameSettings renderingPathCustomFrameSettings;
+        /// <summary>Frame settings mask to use.</summary>
+        public FrameSettingsOverrideMask renderingPathCustomFrameSettingsOverrideMask;
         /// <summary>Post process layer to use.</summary>
         public PostProcessLayer postProcessLayer;
         /// <summary>Buffer clearing settings to use.</summary>
@@ -192,5 +194,9 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
         [SerializeField, FormerlySerializedAs("renderingPath"), Obsolete("For data migration")]
         internal int m_ObsoleteRenderingPath;
+#pragma warning disable 618 // Type or member is obsolete
+        [SerializeField, FormerlySerializedAs("frameSettings"), Obsolete("For data migration")]
+        internal ObsoleteFrameSettings m_ObsoleteFrameSettings;
+#pragma warning restore 618
     }
 }

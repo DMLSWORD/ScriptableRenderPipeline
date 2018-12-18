@@ -65,7 +65,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             if (target == null)
                 throw new ArgumentNullException("target");
             // Assert for frame settings
-            if (settings.frameSettings == null)
+            if (settings.renderingPathCustomFrameSettings == null)
                 throw new ArgumentNullException("settings");
 
             var rtTarget = target as RenderTexture;

@@ -44,7 +44,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
         {
             this.root = root;
 
-            frameSettings = new SerializedFrameSettings(root.Find((CameraSettings s) => s.frameSettings));
+            frameSettings = new SerializedFrameSettings(root.Find((CameraSettings s) => s.renderingPathCustomFrameSettings));
 
             bufferClearColorMode = root.FindPropertyRelative("bufferClearing.clearColorMode");
             bufferClearBackgroundColorHDR = root.FindPropertyRelative("bufferClearing.backgroundColorHDR");

@@ -7,7 +7,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 {
     [DisallowMultipleComponent, ExecuteAlways]
     [RequireComponent(typeof(Camera))]
-    public partial class HDAdditionalCameraData : MonoBehaviour, ISerializationCallbackReceiver, IDebugData
+    public partial class HDAdditionalCameraData : MonoBehaviour, IDebugData
     {
         public enum FlipYMode
         {
@@ -62,7 +62,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         ObsoleteFrameSettings m_ObsoleteFrameSettings;
 
         [SerializeField]
-        FrameSettings m_RenderingPathCustomFrameSettings = FrameSettings.@default;
+        FrameSettings m_RenderingPathCustomFrameSettings = FrameSettings.defaultCamera;
 
         [SerializeField]
         FrameSettingsOverrideMask m_RenderingPathCustomOverrideFrameSettings;
@@ -70,10 +70,8 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         public FrameSettings renderingPathCustomFrameSettings => m_RenderingPathCustomFrameSettings;
         public FrameSettingsOverrideMask renderingPathCustomOverrideFrameSettings => m_RenderingPathCustomOverrideFrameSettings;
 
-
-
         // Not serialized, visible only in the debug windows
-        FrameSettings m_FrameSettingsRuntime = FrameSettings.@default;
+        FrameSettings m_FrameSettingsRuntime = FrameSettings.defaultCamera;
 
         bool m_frameSettingsIsDirty = true;
 
@@ -208,18 +206,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         void OnDisable()
         {
             UnRegisterDebug();
-        }
-
-        public void OnBeforeSerialize()
-        {
-        }
-
-        public void OnAfterDeserialize()
-        {
-            // This is call on load or when this settings are change.
-            // When FrameSettings are manipulated or RenderPath change we reset them to reflect the change, discarding all the Debug Windows change.
-            // Tag as dirty so frameSettings are correctly initialize at next HDRenderPipeline.Render() call
-            m_frameSettingsIsDirty = true;
         }
 
         // This is called at the creation of the HD Additional Camera Data, to convert the legacy camera settings to HD
