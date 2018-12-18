@@ -54,27 +54,11 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         // Event used to override HDRP rendering for this particular camera.
         public event Action<ScriptableRenderContext, HDCamera> customRender;
         public bool hasCustomRender { get { return customRender != null; } }
+        
+        public FrameSettings renderingPathCustomFrameSettings = FrameSettings.defaultCamera;
 
-        // To be able to turn on/off FrameSettings properties at runtime for debugging purpose without affecting the original one
-        // we create a runtime copy (m_ActiveFrameSettings that is used, and any parametrization is done on serialized frameSettings)
-        [SerializeField]
-        [FormerlySerializedAs("serializedFrameSettings"), FormerlySerializedAs("m_FrameSettings")]
-        ObsoleteFrameSettings m_ObsoleteFrameSettings;
-
-        [SerializeField]
-        FrameSettings m_RenderingPathCustomFrameSettings = FrameSettings.defaultCamera;
-
-        [SerializeField]
-        FrameSettingsOverrideMask m_RenderingPathCustomOverrideFrameSettings;
-
-        public FrameSettings renderingPathCustomFrameSettings => m_RenderingPathCustomFrameSettings;
-        public FrameSettingsOverrideMask renderingPathCustomOverrideFrameSettings => m_RenderingPathCustomOverrideFrameSettings;
-
-        // Not serialized, visible only in the debug windows
-        FrameSettings m_FrameSettingsRuntime = FrameSettings.defaultCamera;
-
-        bool m_frameSettingsIsDirty = true;
-
+        public FrameSettingsOverrideMask renderingPathCustomOverrideFrameSettings;
+        
         // Use for debug windows
         // When camera name change we need to update the name in DebugWindows.
         // This is the purpose of this class
@@ -103,9 +87,8 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             data.shutterSpeed = shutterSpeed;
             data.iso = iso;
 
-            m_FrameSettings.CopyTo(data.m_FrameSettings);
-            m_FrameSettingsRuntime.CopyTo(data.m_FrameSettingsRuntime);
-            data.m_frameSettingsIsDirty = true; // Let's be sure it is dirty for update
+            data.m_RenderingPathCustomFrameSettings = m_RenderingPathCustomFrameSettings;
+            data.m_RenderingPathCustomOverrideFrameSettings = m_RenderingPathCustomOverrideFrameSettings;
 
             // We must not copy the following
             //data.m_IsDebugRegistered = m_IsDebugRegistered;

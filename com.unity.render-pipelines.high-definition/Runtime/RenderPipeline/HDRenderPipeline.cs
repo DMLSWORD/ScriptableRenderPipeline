@@ -329,7 +329,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             m_DebugDisplaySettings.RegisterDebug();
 #if UNITY_EDITOR
             // We don't need the debug of Scene View at runtime (each camera have its own debug settings)
-            FrameSettings.RegisterDebug("Scene View", m_Asset.GetFrameSettings());
+            FrameSettings.RegisterDebug("Scene View", m_Asset.GetDefaultFrameSettings(FrameSettingsRenderType.Camera));
 #endif
 
             m_DepthPyramidMipLevelOffsetsBuffer = new ComputeBuffer(15, sizeof(int) * 2);

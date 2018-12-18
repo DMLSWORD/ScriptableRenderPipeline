@@ -64,9 +64,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             // Argument checking
             if (target == null)
                 throw new ArgumentNullException("target");
-            // Assert for frame settings
-            if (settings.renderingPathCustomFrameSettings == null)
-                throw new ArgumentNullException("settings");
 
             var rtTarget = target as RenderTexture;
             var cubeTarget = target as Cubemap;

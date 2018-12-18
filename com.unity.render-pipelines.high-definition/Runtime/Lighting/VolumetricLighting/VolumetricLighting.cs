@@ -563,7 +563,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             using (new ProfilingSample(cmd, "Volume Voxelization"))
             {
                 int  numVisibleVolumes = m_VisibleVolumeBounds.Count;
-                bool tiledLighting     = hdCamera.frameSettings.lightLoopSettings.enableBigTilePrepass;
+                bool tiledLighting     = hdCamera.frameSettings.bigTilePrepass;
                 bool highQuality       = preset == VolumetricLightingPreset.High;
 
                 int kernel = (tiledLighting ? 1 : 0) | (highQuality ? 2 : 0);
@@ -606,7 +606,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                     // We explicitly set the big tile info even though it is set globally, since this could be running async before the PushGlobalParams
                     cmd.SetComputeIntParam(m_VolumeVoxelizationCS, HDShaderIDs._NumTileBigTileX, lightLoop.GetNumTileBigTileX(hdCamera));
                     cmd.SetComputeIntParam(m_VolumeVoxelizationCS, HDShaderIDs._NumTileBigTileY, lightLoop.GetNumTileBigTileY(hdCamera));
-                    if (hdCamera.frameSettings.lightLoopSettings.enableBigTilePrepass)
+                    if (hdCamera.frameSettings.bigTilePrepass)
                         cmd.SetComputeBufferParam(m_VolumeVoxelizationCS, kernel, HDShaderIDs.g_vBigTileLightList, lightLoop.GetBigTileLightList());
                 }
 
@@ -680,7 +680,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 var fog = VolumeManager.instance.stack.GetComponent<VolumetricFog>();
 
                 // Only available in the Play Mode because all the frame counters in the Edit Mode are broken.
-                bool tiledLighting      = hdCamera.frameSettings.lightLoopSettings.enableBigTilePrepass;
+                bool tiledLighting      = hdCamera.frameSettings.bigTilePrepass;
                 bool enableReprojection = Application.isPlaying && hdCamera.camera.cameraType == CameraType.Game &&
                                           hdCamera.frameSettings.reprojectionForVolumetrics;
                 bool enableAnisotropy   = fog.anisotropy != 0;

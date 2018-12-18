@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
 using UnityEngine.Serialization;
@@ -58,6 +59,21 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
         [SerializeField]
         FrameSettings m_RenderingPathDefaultRealtimeReflectionFrameSettings = FrameSettings.defaultRealtimeReflectionProbe;
+
+        public ref FrameSettings GetDefaultFrameSettings(FrameSettingsRenderType type)
+        {
+            switch(type)
+            {
+                case FrameSettingsRenderType.Camera:
+                    return ref m_RenderingPathDefaultCameraFrameSettings;
+                case FrameSettingsRenderType.CustomOrBakedReflection:
+                    return ref m_RenderingPathDefaultBakedOrCustomReflectionFrameSettings;
+                case FrameSettingsRenderType.RealtimeReflection:
+                    return ref m_RenderingPathDefaultRealtimeReflectionFrameSettings;
+                default:
+                    throw new ArgumentException("Unknown FrameSettingsRenderType");
+            }
+        }
 
         public ReflectionSystemParameters reflectionSystemParameters
         {

@@ -58,6 +58,13 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         Deferred
     }
 
+    public enum FrameSettingsRenderType
+    {
+        Camera,
+        CustomOrBakedReflection,
+        RealtimeReflection
+    }
+
     public enum FrameSettingsField
     {
         //lighting settings from 0 to 19
@@ -163,47 +170,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
     [System.Diagnostics.DebuggerDisplay("FrameSettings overriding {overrides.ToString(\"X\")}")]
     public partial struct FrameSettings
     {
-        //static Dictionary<FrameSettingsField, Action<FrameSettings, FrameSettings>> s_Overrides = new Dictionary<FrameSettingsField, Action<FrameSettings, FrameSettings>>
-        //{
-        //    {FrameSettingsField.Shadow, (a, b) => { a.shadow = b.shadow; } },
-        //    {FrameSettingsField.ContactShadow, (a, b) => { a.contactShadows = b.contactShadows; } },
-        //    {FrameSettingsField.ShadowMask, (a, b) => { a.shadowMask = b.shadowMask; } },
-        //    {FrameSettingsField.SSR, (a, b) => { a.ssr = b.ssr; } },
-        //    {FrameSettingsField.SSAO, (a, b) => { a.ssao = b.ssao; } },
-        //    {FrameSettingsField.SubsurfaceScattering, (a, b) => { a.subsurfaceScattering = b.subsurfaceScattering; } },
-        //    {FrameSettingsField.Transmission, (a, b) => { a.transmission = b.transmission; } },
-        //    {FrameSettingsField.AtmosphericScaterring, (a, b) => { a.atmosphericScattering = b.atmosphericScattering; } },
-        //    {FrameSettingsField.Volumetrics, (a, b) => { a.volumetrics = b.volumetrics; } },
-        //    {FrameSettingsField.ReprojectionForVolumetrics, (a, b) => { a.reprojectionForVolumetrics = b.reprojectionForVolumetrics; } },
-        //    {FrameSettingsField.LightLayers, (a, b) => { a.lightLayers = b.lightLayers; } },
-        //    {FrameSettingsField.MSAA, (a, b) => { a.msaa = b.msaa; } },
-        //    {FrameSettingsField.TransparentPrepass, (a, b) => { a.transparentPrepass = b.transparentPrepass; } },
-        //    {FrameSettingsField.TransparentPostpass, (a, b) => { a.transparentPostpass = b.transparentPostpass; } },
-        //    {FrameSettingsField.MotionVectors, (a, b) => { a.motionVectors = b.motionVectors; } },
-        //    {FrameSettingsField.ObjectMotionVectors, (a, b) => { a.objectMotionVectors = b.objectMotionVectors; } },
-        //    {FrameSettingsField.Decals, (a, b) => { a.decals = b.decals; } },
-        //    {FrameSettingsField.RoughRefraction, (a, b) => { a.roughRefraction = b.roughRefraction; } },
-        //    {FrameSettingsField.Distortion, (a, b) => { a.distortion = b.distortion; } },
-        //    {FrameSettingsField.Postprocess, (a, b) => { a.postprocess = b.postprocess; } },
-        //    {FrameSettingsField.ShaderLitMode, (a, b) => { a.shaderLitMode = b.shaderLitMode; } },
-        //    {FrameSettingsField.DepthPrepassWithDeferredRendering, (a, b) => { a.depthPrepassWithDeferredRendering = b.depthPrepassWithDeferredRendering; } },
-        //    {FrameSettingsField.AsyncCompute, (a, b) => { a.asyncCompute = b.asyncCompute; } },
-        //    {FrameSettingsField.OpaqueObjects, (a, b) => { a.opaqueObjects = b.opaqueObjects; } },
-        //    {FrameSettingsField.TransparentObjects, (a, b) => { a.transparentObjects = b.transparentObjects; } },
-        //    {FrameSettingsField.RealtimePlanarReflection, (a, b) => { a.realtimePlanarReflection = b.realtimePlanarReflection; } },
-        //    {FrameSettingsField.LightListAsync, (a, b) => { a.lightListAsync = b.lightListAsync; } },
-        //    {FrameSettingsField.SSRAsync, (a, b) => { a.ssrAsync = b.ssrAsync; } },
-        //    {FrameSettingsField.SSAOAsync, (a, b) => { a.ssaoAsync = b.ssaoAsync; } },
-        //    {FrameSettingsField.ContactShadowsAsync, (a, b) => { a.contactShadowsAsync = b.contactShadowsAsync; } },
-        //    {FrameSettingsField.VolumeVoxelizationsAsync, (a, b) => { a.volumeVoxelizationAsync = b.volumeVoxelizationAsync; } },
-        //    {FrameSettingsField.FptlForForwardOpaque, (a, b) => { a.fptlForForwardOpaque = b.fptlForForwardOpaque; } },
-        //    {FrameSettingsField.BigTilePrepass, (a, b) => { a.bigTilePrepass = b.bigTilePrepass; } },
-        //    {FrameSettingsField.ComputeLightEvaluation, (a, b) => { a.computeLightEvaluation = b.computeLightEvaluation; } },
-        //    {FrameSettingsField.ComputeLightVariants, (a, b) => { a.computeLightVariants = b.computeLightVariants; } },
-        //    {FrameSettingsField.ComputeMaterialVariants, (a, b) => { a.computeMaterialVariants = b.computeMaterialVariants; } },
-        //    {FrameSettingsField.TileAndCluster, (a, b) => { a.tileAndCluster = b.tileAndCluster; } },
-        //};
-
         [SerializeField]
         CheapBoolArray128 boolData;
 
@@ -562,7 +528,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             set => boolData[(uint)FrameSettingsField.Fptl] = value;
         }
 
-        static void Override(ref FrameSettings overridedFrameSettings, FrameSettings overridingFrameSettings, FrameSettingsOverrideMask frameSettingsOverideMask)
+        public static void Override(ref FrameSettings overridedFrameSettings, FrameSettings overridingFrameSettings, FrameSettingsOverrideMask frameSettingsOverideMask)
         {
             var overrides = frameSettingsOverideMask.mask;
             if (overrides.allFalse)
@@ -596,12 +562,17 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
         // Init a FrameSettings from renderpipeline settings, frame settings and debug settings (if any)
         // This will aggregate the various option
-        static void Sanitize(ref FrameSettings sanitazedFrameSettings, Camera camera, RenderPipelineSettings renderPipelineSettings)
+        public static void Sanitize(ref FrameSettings sanitazedFrameSettings, Camera camera, RenderPipelineSettings renderPipelineSettings)
         {
             bool reflection = camera.cameraType == CameraType.Reflection;
             bool preview = HDUtils.IsRegularPreviewCamera(camera);
             bool sceneViewFog = CoreUtils.IsSceneViewFogEnabled(camera);
+            bool stereo = camera.stereoEnabled;
+            Sanitize(ref sanitazedFrameSettings, reflection, preview, sceneViewFog, stereo, renderPipelineSettings);
+        }
 
+        public static void Sanitize(ref FrameSettings sanitazedFrameSettings, bool reflection, bool preview, bool sceneViewFog, bool stereo, RenderPipelineSettings renderPipelineSettings)
+        {
             sanitazedFrameSettings.diffuseGlobalDimmer = 1.0f;
 
             // When rendering reflection probe we disable specular as it is view dependent
@@ -609,7 +580,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
             // We have to fall back to forward-only rendering when scene view is using wireframe rendering mode
             // as rendering everything in wireframe + deferred do not play well together
-            if (GL.wireframe || camera.stereoEnabled) //force forward mode for wireframe
+            if (GL.wireframe || stereo) //force forward mode for wireframe
             {
                 // Stereo deferred rendering still has the following problems:
                 // VR TODO: Dispatch tile light-list compute per-eye
@@ -642,7 +613,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
             // VR TODO: The work will be implemented piecemeal to support all passes
             // No recursive reflections
-            sanitazedFrameSettings.boolData[(uint)FrameSettingsField.SSR] &= !reflection && renderPipelineSettings.supportSSR && !msaa && !preview && camera.stereoEnabled;
+            sanitazedFrameSettings.boolData[(uint)FrameSettingsField.SSR] &= !reflection && renderPipelineSettings.supportSSR && !msaa && !preview && stereo;
             sanitazedFrameSettings.boolData[(uint)FrameSettingsField.SSAO] &= renderPipelineSettings.supportSSAO && !preview;
             sanitazedFrameSettings.boolData[(uint)FrameSettingsField.SubsurfaceScattering] &= !reflection && renderPipelineSettings.supportSubsurfaceScattering;
 
@@ -663,7 +634,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             // VR TODO: The work will be implemented piecemeal to support all passes
             // VR TODO: check why '=' and not '&=' and if we can merge these lines
             bool motionVector;
-            if (camera.stereoEnabled)
+            if (stereo)
                 motionVector = sanitazedFrameSettings.boolData[(uint)FrameSettingsField.MotionVectors] = postprocess && !msaa && !preview;
             else
                 motionVector = sanitazedFrameSettings.boolData[(uint)FrameSettingsField.MotionVectors] &= !reflection && renderPipelineSettings.supportMotionVectors && !preview;
@@ -690,10 +661,10 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             // If Deferred, enable Fptl. If we are forward renderer only and not using Fptl for forward opaque, disable Fptl
             sanitazedFrameSettings.boolData[(uint)FrameSettingsField.Fptl] &= sanitazedFrameSettings.shaderLitMode == LitShaderMode.Deferred || fptlForwardOpaque;
         }
-        
-        public static void AggregateFrameSettings(ref FrameSettings aggregatedFrameSettings, Camera camera, HDAdditionalCameraData additionalData, HDRenderPipelineAsset hdrpAsset)
+
+        public static void AggregateFrameSettings(ref FrameSettings aggregatedFrameSettings, Camera camera, HDAdditionalCameraData additionalData, HDRenderPipelineAsset hdrpAsset, FrameSettingsRenderType defaultType)
         {
-            aggregatedFrameSettings = hdrpAsset.GetFrameSettings();
+            aggregatedFrameSettings = hdrpAsset.GetDefaultFrameSettings(defaultType);
             if (additionalData && additionalData.customRenderingSettings)
                 Override(ref aggregatedFrameSettings, additionalData.renderingPathCustomFrameSettings, additionalData.renderingPathCustomOverrideFrameSettings);
             Sanitize(ref aggregatedFrameSettings, camera, hdrpAsset.GetRenderPipelineSettings());
@@ -756,6 +727,98 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             return SystemInfo.supportsAsyncCompute && boolData[(uint)FrameSettingsField.AsyncCompute] && boolData[(uint)FrameSettingsField.VolumeVoxelizationsAsync];
         }
         
+    }
+
+    public class DebugFrameSettings
+    {
+        public readonly FrameSettingsRenderType type;
+        public Camera camera;
+        public HDAdditionalCameraData additionalCameraData;
+        public HDProbe probe;
+        public FrameSettings debugOverride;
+
+        FrameSettings @default;
+        FrameSettings customOverride;
+        FrameSettingsOverrideMask customOverrideMask;
+        FrameSettings Sanitazed;
+
+        public DebugFrameSettings(FrameSettingsRenderType type, Camera camera = null, HDAdditionalCameraData additionalCameraData = null, HDProbe probe = null)
+        {
+            this.type = type;
+            switch(type)
+            {
+                case FrameSettingsRenderType.Camera:
+                    Assertions.Assert.IsNotNull(camera);
+                    Assertions.Assert.IsNotNull(additionalCameraData);
+                    probe = null;
+                    break;
+                case FrameSettingsRenderType.CustomOrBakedReflection:
+                case FrameSettingsRenderType.RealtimeReflection:
+                    Assertions.Assert.IsNotNull(probe);
+                    camera = null;
+                    additionalCameraData = null;
+                    break;
+                default:
+                    throw new ArgumentException("Unknown FrameSettingsRenderType");
+            }
+            debugOverride = Sanitazed = customOverride = @default;
+            this.camera = camera;
+            this.additionalCameraData = additionalCameraData;
+            this.probe = probe;
+            customOverrideMask = new FrameSettingsOverrideMask();
+
+            //first init: fill all step
+            Update();
+            //first init: set debug override to no override
+            Reset();
+        }
+
+        public void Reset()
+        {
+            debugOverride = Sanitazed;
+        }
+
+        public void Update()
+        {
+            var hdrpAsset = ((HDRenderPipeline)RenderPipelineManager.currentPipeline)?.asset;
+            if (hdrpAsset == null)
+                return;
+            
+            switch (type)
+            {
+                case FrameSettingsRenderType.Camera:
+                    @default = hdrpAsset.GetDefaultFrameSettings(FrameSettingsRenderType.Camera);
+                    customOverride = @default;
+                    if (additionalCameraData.customRenderingSettings)
+                        FrameSettings.Override(ref customOverride, additionalCameraData.renderingPathCustomFrameSettings, customOverrideMask = additionalCameraData.renderingPathCustomOverrideFrameSettings);
+                    Sanitazed = customOverride;
+                    FrameSettings.Sanitize(ref Sanitazed, camera, hdrpAsset.GetRenderPipelineSettings());
+                    break;
+                case FrameSettingsRenderType.CustomOrBakedReflection:
+                case FrameSettingsRenderType.RealtimeReflection:
+                    switch (probe.mode)
+                    {
+                        case ProbeSettings.Mode.Baked:
+                        case ProbeSettings.Mode.Custom:
+                            @default = hdrpAsset.GetDefaultFrameSettings(FrameSettingsRenderType.CustomOrBakedReflection);
+                            break;
+                        case ProbeSettings.Mode.Realtime:
+                            @default = hdrpAsset.GetDefaultFrameSettings(FrameSettingsRenderType.RealtimeReflection);
+                            break;
+                        default:
+                            throw new ArgumentException("Unknown ProbeSettings.Mode");
+                    }
+                    customOverride = @default;
+                    if (probe.settings.camera.customRenderingSettings)
+                        FrameSettings.Override(ref customOverride, probe.settings.camera.renderingPathCustomFrameSettings, customOverrideMask = probe.settings.camera.renderingPathCustomOverrideFrameSettings);
+                    Sanitazed = customOverride;
+                    FrameSettings.Sanitize(ref Sanitazed, true, false, false, false, hdrpAsset.GetRenderPipelineSettings());
+                    break;
+                default:
+                    throw new ArgumentException("Unknown FrameSettingsRenderType");
+            }
+        }
+
         ref FrameSettings persistantFrameSettings
         {
             get

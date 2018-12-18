@@ -10,9 +10,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         /// <param name="settings">Settings to apply.</param>
         public static void ApplySettings(this Camera cam, CameraSettings settings)
         {
-            if (settings.renderingPathCustomFrameSettings == null)
-                throw new InvalidOperationException("'frameSettings' must not be null.");
-
             var add = cam.GetComponent<HDAdditionalCameraData>()
                 ?? cam.gameObject.AddComponent<HDAdditionalCameraData>();
 
@@ -36,8 +33,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             // HD Specific
             add.customRenderingSettings = settings.customRenderingSettings;
             add.flipYMode = settings.flipYMode;
-
-            add.OnAfterDeserialize();
         }
 
         /// <summary>Applies <paramref name="settings"/> to <paramref name="cam"/>.</summary>

@@ -87,15 +87,21 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             {
                 default:
                 case ProbeSettings.Mode.Realtime:
-                    hd.asset.GetRealtimeReflectionFrameSettings().CopyTo(s_ApplySettings_TMP);
+                    AggregateFrameSettings(ref cameraSettings, hd.asset, FrameSettingsRenderType.RealtimeReflection);
                     break;
                 case ProbeSettings.Mode.Baked:
                 case ProbeSettings.Mode.Custom:
-                    hd.asset.GetBakedOrCustomReflectionFrameSettings().CopyTo(s_ApplySettings_TMP);
+                    AggregateFrameSettings(ref cameraSettings, hd.asset, FrameSettingsRenderType.CustomOrBakedReflection);
                     break;
             }
-            cameraSettings.renderingPathCustomFrameSettings.ApplyOverrideOn(s_ApplySettings_TMP);
-            s_ApplySettings_TMP.CopyTo(cameraSettings.renderingPathCustomFrameSettings);
+        }
+
+        internal static void AggregateFrameSettings(ref CameraSettings cameraSettings, HDRenderPipelineAsset hdrpAsset, FrameSettingsRenderType defaultType)
+        {
+            cameraSettings.renderingPathCustomFrameSettings = hdrpAsset.GetDefaultFrameSettings(defaultType);
+            if (cameraSettings.customRenderingSettings)
+                FrameSettings.Override(ref cameraSettings.renderingPathCustomFrameSettings, cameraSettings.renderingPathCustomFrameSettings, cameraSettings.renderingPathCustomFrameSettingsOverrideMask);
+            FrameSettings.Sanitize(ref cameraSettings.renderingPathCustomFrameSettings, true, false, false, false, hdrpAsset.GetRenderPipelineSettings());
         }
 
         internal static void ApplyMirroredReferenceTransform(

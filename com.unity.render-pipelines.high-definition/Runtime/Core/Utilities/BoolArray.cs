@@ -46,6 +46,11 @@ namespace UnityEngine.Experimental.Rendering
 
         public static CheapBoolArray8 operator |(CheapBoolArray8 a, CheapBoolArray8 b) => new CheapBoolArray8((byte)(a.data | b.data));
         public static CheapBoolArray8 operator &(CheapBoolArray8 a, CheapBoolArray8 b) => new CheapBoolArray8((byte)(a.data & b.data));
+
+        public static bool operator ==(CheapBoolArray8 a, CheapBoolArray8 b) => a.data == b.data;
+        public static bool operator !=(CheapBoolArray8 a, CheapBoolArray8 b) => a.data != b.data;
+        public override bool Equals(object obj) => obj is CheapBoolArray8 && ((CheapBoolArray8)obj).data == data;
+        public override int GetHashCode() => 1768953197 + data.GetHashCode();
     }
 
     [Serializable]
@@ -82,6 +87,11 @@ namespace UnityEngine.Experimental.Rendering
 
         public static CheapBoolArray16 operator |(CheapBoolArray16 a, CheapBoolArray16 b) => new CheapBoolArray16((ushort)(a.data | b.data));
         public static CheapBoolArray16 operator &(CheapBoolArray16 a, CheapBoolArray16 b) => new CheapBoolArray16((ushort)(a.data & b.data));
+
+        public static bool operator ==(CheapBoolArray16 a, CheapBoolArray16 b) => a.data == b.data;
+        public static bool operator !=(CheapBoolArray16 a, CheapBoolArray16 b) => a.data != b.data;
+        public override bool Equals(object obj) => obj is CheapBoolArray16 && ((CheapBoolArray16)obj).data == data;
+        public override int GetHashCode() => 1768953197 + data.GetHashCode();
     }
 
     [Serializable]
@@ -118,6 +128,11 @@ namespace UnityEngine.Experimental.Rendering
 
         public static CheapBoolArray32 operator |(CheapBoolArray32 a, CheapBoolArray32 b) => new CheapBoolArray32(a.data | b.data);
         public static CheapBoolArray32 operator &(CheapBoolArray32 a, CheapBoolArray32 b) => new CheapBoolArray32(a.data & b.data);
+
+        public static bool operator ==(CheapBoolArray32 a, CheapBoolArray32 b) => a.data == b.data;
+        public static bool operator !=(CheapBoolArray32 a, CheapBoolArray32 b) => a.data != b.data;
+        public override bool Equals(object obj) => obj is CheapBoolArray32 && ((CheapBoolArray32)obj).data == data;
+        public override int GetHashCode() => 1768953197 + data.GetHashCode();
     }
 
     [Serializable]
@@ -154,6 +169,11 @@ namespace UnityEngine.Experimental.Rendering
 
         public static CheapBoolArray64 operator |(CheapBoolArray64 a, CheapBoolArray64 b) => new CheapBoolArray64(a.data | b.data);
         public static CheapBoolArray64 operator &(CheapBoolArray64 a, CheapBoolArray64 b) => new CheapBoolArray64(a.data & b.data);
+
+        public static bool operator ==(CheapBoolArray64 a, CheapBoolArray64 b) => a.data == b.data;
+        public static bool operator !=(CheapBoolArray64 a, CheapBoolArray64 b) => a.data != b.data;
+        public override bool Equals(object obj) => obj is CheapBoolArray64 && ((CheapBoolArray64)obj).data == data;
+        public override int GetHashCode() => 1768953197 + data.GetHashCode();
     }
 
     [Serializable]
@@ -205,5 +225,16 @@ namespace UnityEngine.Experimental.Rendering
 
         public static CheapBoolArray128 operator |(CheapBoolArray128 a, CheapBoolArray128 b) => new CheapBoolArray128(a.data1 | b.data1, a.data2 | b.data2);
         public static CheapBoolArray128 operator &(CheapBoolArray128 a, CheapBoolArray128 b) => new CheapBoolArray128(a.data1 & b.data1, a.data2 & b.data2);
+
+        public static bool operator ==(CheapBoolArray128 a, CheapBoolArray128 b) => a.data1 == b.data1 && a.data2 == b.data2;
+        public static bool operator !=(CheapBoolArray128 a, CheapBoolArray128 b) => a.data1 != b.data1 && a.data2 != b.data2;
+        public override bool Equals(object obj) => (obj is CheapBoolArray128) && data1.Equals(((CheapBoolArray128)obj).data1) && data2.Equals(((CheapBoolArray128)obj).data2);
+        public override int GetHashCode()
+        {
+            var hashCode = 1755735569;
+            hashCode = hashCode * -1521134295 + data1.GetHashCode();
+            hashCode = hashCode * -1521134295 + data2.GetHashCode();
+            return hashCode;
+        }
     }
 }
