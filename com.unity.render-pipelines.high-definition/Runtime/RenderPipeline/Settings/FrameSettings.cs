@@ -152,12 +152,13 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         ComputeMaterialVariants = 124,
         [DebugMenuField(path: "Light Loop Settings")]
         TileAndCluster = 125,
-        Fptl = 126, //set by engine, not for DebugMenu
-        SpecularGlobalDimmer = 127, //set by engine, not for DebugMenu
+        Reflection = 126, //set by engine, not for DebugMenu
 
         //only 128 booleans saved. For more, change the CheapBitArray used
     }
 
+    [Serializable]
+    [System.Diagnostics.DebuggerDisplay("FrameSettings overriding {mask.humanizedData}")]
     public struct FrameSettingsOverrideMask
     {
         [SerializeField]
@@ -167,7 +168,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
     // The settings here are per frame settings.
     // Each camera must have its own per frame settings
     [Serializable]
-    [System.Diagnostics.DebuggerDisplay("FrameSettings overriding {overrides.ToString(\"X\")}")]
+    [System.Diagnostics.DebuggerDisplay("FrameSettings overriding {bitDatas.humanizedData}")]
     public partial struct FrameSettings
     {
         public static readonly FrameSettings defaultCamera = new FrameSettings()
@@ -208,7 +209,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 (uint)FrameSettingsField.ComputeMaterialVariants,
                 (uint)FrameSettingsField.FptlForForwardOpaque,
                 (uint)FrameSettingsField.BigTilePrepass,
-                (uint)FrameSettingsField.Fptl,
             })
         };
         public static readonly FrameSettings defaultRealtimeReflectionProbe = new FrameSettings()
@@ -249,10 +249,12 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 (uint)FrameSettingsField.ComputeMaterialVariants,
                 (uint)FrameSettingsField.FptlForForwardOpaque,
                 (uint)FrameSettingsField.BigTilePrepass,
-                (uint)FrameSettingsField.Fptl,
             })
         };
         public static readonly FrameSettings defaultCustomOrBakeReflectionProbe = defaultCamera;
+        
+        internal static Dictionary<Camera, FrameSettings> debugFrameSettings = new Dictionary<Camera, FrameSettings>();
+        internal static Dictionary<Camera, FrameSettings> debugPreviousAggregattedFrameSettings = new Dictionary<Camera, FrameSettings>();
 
         [SerializeField]
         CheapBitArray128 bitDatas;
@@ -444,14 +446,15 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             get => bitDatas[(uint)FrameSettingsField.BigTilePrepass];
             set => bitDatas[(uint)FrameSettingsField.BigTilePrepass] = value;
         }
-        /// <summary>Setup by system</summary>
-        public bool fptl
-        {
-            get => bitDatas[(uint)FrameSettingsField.Fptl];
-            set => bitDatas[(uint)FrameSettingsField.Fptl] = value;
-        }
-        /// <summary>Setup by system</summary>
-        public float specularGlobalDimmer => bitDatas[(uint)FrameSettingsField.SpecularGlobalDimmer] ? 1f : 0f;
+
+        public bool fptl => shaderLitMode == LitShaderMode.Deferred || bitDatas[(uint)FrameSettingsField.FptlForForwardOpaque];
+        public float specularGlobalDimmer => bitDatas[(uint)FrameSettingsField.Reflection] ? 1f : 0f;
+        
+        public bool BuildLightListRunsAsync() => SystemInfo.supportsAsyncCompute && bitDatas[(uint)FrameSettingsField.AsyncCompute] && bitDatas[(uint)FrameSettingsField.LightListAsync];
+        public bool SSRRunsAsync() => SystemInfo.supportsAsyncCompute && bitDatas[(uint)FrameSettingsField.AsyncCompute] && bitDatas[(uint)FrameSettingsField.SSRAsync];
+        public bool SSAORunsAsync() => SystemInfo.supportsAsyncCompute && bitDatas[(uint)FrameSettingsField.AsyncCompute] && bitDatas[(uint)FrameSettingsField.SSAOAsync];
+        public bool ContactShadowsRunAsync() => SystemInfo.supportsAsyncCompute && bitDatas[(uint)FrameSettingsField.AsyncCompute] && bitDatas[(uint)FrameSettingsField.ContactShadowsAsync];
+        public bool VolumeVoxelizationRunsAsync() => SystemInfo.supportsAsyncCompute && bitDatas[(uint)FrameSettingsField.AsyncCompute] && bitDatas[(uint)FrameSettingsField.VolumeVoxelizationsAsync];
 
         public static void Override(ref FrameSettings overridedFrameSettings, FrameSettings overridingFrameSettings, FrameSettingsOverrideMask frameSettingsOverideMask)
         {
@@ -478,7 +481,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             bool stereo = camera.stereoEnabled;
 
             // When rendering reflection probe we disable specular as it is view dependent
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.SpecularGlobalDimmer] = !reflection;
+            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.Reflection] = !reflection;
 
             // We have to fall back to forward-only rendering when scene view is using wireframe rendering mode
             // as rendering everything in wireframe + deferred do not play well together
@@ -559,50 +562,31 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             // In HD, MSAA is only supported for forward only rendering, no MSAA in deferred mode (for code complexity reasons)
             // Disable FPTL for stereo for now
             bool fptlForwardOpaque = sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.FptlForForwardOpaque] &= !msaa && !XRGraphics.enabled;
-
-            // If Deferred, enable Fptl. If we are forward renderer only and not using Fptl for forward opaque, disable Fptl
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.Fptl] &= sanitazedFrameSettings.shaderLitMode == LitShaderMode.Deferred || fptlForwardOpaque;
         }
         
-        internal static Dictionary<Camera, FrameSettings> debugFrameSettings = new Dictionary<Camera, FrameSettings>();
         public static void AggregateFrameSettings(ref FrameSettings aggregatedFrameSettings, Camera camera, HDAdditionalCameraData additionalData, HDRenderPipelineAsset hdrpAsset)
         {
-            if (debugFrameSettings.ContainsKey(camera))
-            {
-                aggregatedFrameSettings = debugFrameSettings[camera];
-                return;
-            }
-
             aggregatedFrameSettings = hdrpAsset.GetDefaultFrameSettings(additionalData.defaultFrameSettings);
             if (additionalData && additionalData.customRenderingSettings)
                 Override(ref aggregatedFrameSettings, additionalData.renderingPathCustomFrameSettings, additionalData.renderingPathCustomOverrideFrameSettings);
             Sanitize(ref aggregatedFrameSettings, camera, hdrpAsset.GetRenderPipelineSettings());
-        }
 
-        public bool BuildLightListRunsAsync()
-        {
-            return SystemInfo.supportsAsyncCompute && bitDatas[(uint)FrameSettingsField.AsyncCompute] && bitDatas[(uint)FrameSettingsField.LightListAsync];
+            if (debugFrameSettings.ContainsKey(camera))
+            {
+                if(debugPreviousAggregattedFrameSettings[camera] != aggregatedFrameSettings)
+                {
+                    debugPreviousAggregattedFrameSettings[camera] = aggregatedFrameSettings;
+                    debugFrameSettings[camera] = aggregatedFrameSettings;
+                }
+                aggregatedFrameSettings = debugFrameSettings[camera];
+                return;
+            }
         }
-
-        public bool SSRRunsAsync()
-        {
-            return SystemInfo.supportsAsyncCompute && bitDatas[(uint)FrameSettingsField.AsyncCompute] && bitDatas[(uint)FrameSettingsField.SSRAsync];
-        }
-
-        public bool SSAORunsAsync()
-        {
-            return SystemInfo.supportsAsyncCompute && bitDatas[(uint)FrameSettingsField.AsyncCompute] && bitDatas[(uint)FrameSettingsField.SSAOAsync];
-        }
-
-        public bool ContactShadowsRunAsync()
-        {
-            return SystemInfo.supportsAsyncCompute && bitDatas[(uint)FrameSettingsField.AsyncCompute] && bitDatas[(uint)FrameSettingsField.ContactShadowsAsync];
-        }
-
-        public bool VolumeVoxelizationRunsAsync()
-        {
-            return SystemInfo.supportsAsyncCompute && bitDatas[(uint)FrameSettingsField.AsyncCompute] && bitDatas[(uint)FrameSettingsField.VolumeVoxelizationsAsync];
-        }
+        
+        public static bool operator ==(FrameSettings a, FrameSettings b) => a.bitDatas == b.bitDatas;
+        public static bool operator !=(FrameSettings a, FrameSettings b) => a.bitDatas != b.bitDatas;
+        public override bool Equals(object obj) => (obj is FrameSettings) && bitDatas.Equals((FrameSettings)obj);
+        public override int GetHashCode() => -1690259335 + bitDatas.GetHashCode();
     }
 
     public class DebugFrameSettings

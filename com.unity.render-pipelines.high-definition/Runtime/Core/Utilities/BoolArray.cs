@@ -10,6 +10,7 @@ namespace UnityEngine.Experimental.Rendering
         bool allFalse { get; }
         bool allTrue { get; }
         bool this[uint index] { get; set; }
+        string humanizedData { get; }
     }
 
     [Serializable]
@@ -21,6 +22,7 @@ namespace UnityEngine.Experimental.Rendering
         public uint capacity => 8u;
         public bool allFalse => data == 0u;
         public bool allTrue => data == byte.MaxValue;
+        public string humanizedData => String.Format("%" + capacity + "s", Convert.ToString(data, 2).Replace(' ', '0'));
 
         public bool this[uint index]
         {
@@ -63,6 +65,8 @@ namespace UnityEngine.Experimental.Rendering
         public uint capacity => 16u;
         public bool allFalse => data == 0u;
         public bool allTrue => data == ushort.MaxValue;
+        public string humanizedData => System.Text.RegularExpressions.Regex.Replace(String.Format("%" + capacity + "s", Convert.ToString(data, 2).Replace(' ', '0')), ".{8}", "$0.");
+
 
         public bool this[uint index]
         {
@@ -105,6 +109,8 @@ namespace UnityEngine.Experimental.Rendering
         public uint capacity => 32u;
         public bool allFalse => data == 0u;
         public bool allTrue => data == uint.MaxValue;
+        string humanizedVersion => Convert.ToString(data, 2);
+        public string humanizedData => System.Text.RegularExpressions.Regex.Replace(String.Format("%" + capacity + "s", Convert.ToString(data, 2).Replace(' ', '0')), ".{8}", "$0.");
 
         public bool this[uint index]
         {
@@ -147,6 +153,7 @@ namespace UnityEngine.Experimental.Rendering
         public uint capacity => 64u;
         public bool allFalse => data == 0uL;
         public bool allTrue => data == ulong.MaxValue;
+        public string humanizedData => System.Text.RegularExpressions.Regex.Replace(String.Format("%" + capacity + "s", Convert.ToString((long)data, 2).Replace(' ', '0')), ".{8}", "$0.");
 
         public bool this[uint index]
         {
@@ -192,6 +199,7 @@ namespace UnityEngine.Experimental.Rendering
         public uint capacity => 128u;
         public bool allFalse => data1.allFalse && data2.allFalse;
         public bool allTrue => data1.allTrue && data2.allTrue;
+        public string humanizedData => data1.humanizedData + "." + data2.humanizedData;
 
         public bool this[uint index]
         {
