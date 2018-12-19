@@ -7,7 +7,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 {
     [DisallowMultipleComponent, ExecuteAlways]
     [RequireComponent(typeof(Camera))]
-    public partial class HDAdditionalCameraData : MonoBehaviour, IDebugData
+    public partial class HDAdditionalCameraData : MonoBehaviour
     {
         public enum FlipYMode
         {
@@ -192,7 +192,5 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 customRender(renderContext, hdCamera);
             }
         }
-
-        Action IDebugData.GetReset() => renderingPathCustomFrameSettings.GetReset();
     }
 }

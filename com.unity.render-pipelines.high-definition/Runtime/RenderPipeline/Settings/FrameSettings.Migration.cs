@@ -196,7 +196,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             newFrameSettingsFormat.computeMaterialVariants = oldFrameSettingsFormat.lightLoopSettings.enableComputeMaterialVariants;
             newFrameSettingsFormat.fptlForForwardOpaque = oldFrameSettingsFormat.lightLoopSettings.enableFptlForForwardOpaque;
             newFrameSettingsFormat.bigTilePrepass = oldFrameSettingsFormat.lightLoopSettings.enableBigTilePrepass;
-            newFrameSettingsFormat.fptl = oldFrameSettingsFormat.lightLoopSettings.isFptlEnabled;
 
             // OverrideMask
             newFrameSettingsOverrideMask.mask = new CheapBitArray128();
