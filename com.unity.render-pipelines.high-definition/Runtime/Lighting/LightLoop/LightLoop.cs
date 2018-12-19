@@ -851,7 +851,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             lightData.color *= (HDUtils.s_DefaultHDAdditionalLightData == additionalLightData) ? Mathf.PI : 1.0f;
 
             lightData.lightDimmer           = additionalLightData.lightDimmer;
-            lightData.diffuseDimmer         = additionalLightData.affectDiffuse  ? additionalLightData.lightDimmer * m_FrameSettings.diffuseGlobalDimmer  : 0;
+            lightData.diffuseDimmer         = additionalLightData.affectDiffuse  ? additionalLightData.lightDimmer : 0;
             lightData.specularDimmer        = additionalLightData.affectSpecular ? additionalLightData.lightDimmer * m_FrameSettings.specularGlobalDimmer : 0;
             lightData.volumetricLightDimmer = additionalLightData.volumetricDimmer;
 
@@ -1096,7 +1096,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             }
 
             lightData.lightDimmer           = lightDistanceFade * (additionalLightData.lightDimmer);
-            lightData.diffuseDimmer         = lightDistanceFade * (additionalLightData.affectDiffuse  ? additionalLightData.lightDimmer * m_FrameSettings.diffuseGlobalDimmer  : 0);
+            lightData.diffuseDimmer         = lightDistanceFade * (additionalLightData.affectDiffuse  ? additionalLightData.lightDimmer : 0);
             lightData.specularDimmer        = lightDistanceFade * (additionalLightData.affectSpecular ? additionalLightData.lightDimmer * m_FrameSettings.specularGlobalDimmer : 0);
             lightData.volumetricLightDimmer = lightDistanceFade * (additionalLightData.volumetricDimmer);
 

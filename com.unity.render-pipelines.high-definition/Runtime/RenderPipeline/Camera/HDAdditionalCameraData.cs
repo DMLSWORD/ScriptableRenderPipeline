@@ -56,9 +56,9 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         public bool hasCustomRender { get { return customRender != null; } }
         
         public FrameSettings renderingPathCustomFrameSettings = FrameSettings.defaultCamera;
-
         public FrameSettingsOverrideMask renderingPathCustomOverrideFrameSettings;
-        
+        public FrameSettingsRenderType defaultFrameSettings;
+
         // Use for debug windows
         // When camera name change we need to update the name in DebugWindows.
         // This is the purpose of this class
@@ -87,33 +87,15 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             data.shutterSpeed = shutterSpeed;
             data.iso = iso;
 
-            data.m_RenderingPathCustomFrameSettings = m_RenderingPathCustomFrameSettings;
-            data.m_RenderingPathCustomOverrideFrameSettings = m_RenderingPathCustomOverrideFrameSettings;
+            data.renderingPathCustomFrameSettings = renderingPathCustomFrameSettings;
+            data.renderingPathCustomOverrideFrameSettings = renderingPathCustomOverrideFrameSettings;
+            data.defaultFrameSettings = defaultFrameSettings;
 
             // We must not copy the following
             //data.m_IsDebugRegistered = m_IsDebugRegistered;
             //data.m_CameraRegisterName = m_CameraRegisterName;
             //data.isEditorCameraPreview = isEditorCameraPreview;
         }
-
-        public void SetPersistentFrameSettings(FrameSettings settings)
-        {
-            m_FrameSettings = settings;
-            m_frameSettingsIsDirty = true;
-        }
-
-        // This is the function use outside to access FrameSettings. It return the current state of FrameSettings for the camera
-        // taking into account the customization via the debug menu
-        public FrameSettings GetFrameSettings()
-        {
-            return m_FrameSettingsRuntime;
-        }
-
-        // This allows to read serialized value in readonly mode
-        internal T ReadSerializedFrameSettings<T>(Func<FrameSettings, T> reader) where T : struct => reader(m_FrameSettings);
-
-        // IDebugData interface required to reset DebugMenu's FrameSettings
-        Action IDebugData.GetReset() => () => m_FrameSettings.CopyTo(m_FrameSettingsRuntime);
 
         // For custom projection matrices
         // Set the proper getter
@@ -166,9 +148,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
             m_camera.allowMSAA = false; // We don't use this option in HD (it is legacy MSAA) and it produce a warning in the inspector UI if we let it
             m_camera.allowHDR = false;
-
-            //  Tag as dirty so frameSettings are correctly initialize at next HDRenderPipeline.Render() call
-            m_frameSettingsIsDirty = true;
 
             RegisterDebug();
         }

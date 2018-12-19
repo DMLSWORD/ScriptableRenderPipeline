@@ -191,6 +191,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         /// <summary>True to invert face culling, false otherwise.</summary>
         public bool invertFaceCulling;
         public HDAdditionalCameraData.FlipYMode flipYMode;
+        public FrameSettingsRenderType defaultFrameSettings;
 
         [SerializeField, FormerlySerializedAs("renderingPath"), Obsolete("For data migration")]
         internal int m_ObsoleteRenderingPath;

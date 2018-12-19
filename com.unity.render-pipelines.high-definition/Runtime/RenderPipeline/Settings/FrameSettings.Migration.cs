@@ -199,7 +199,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             newFrameSettingsFormat.fptl = oldFrameSettingsFormat.lightLoopSettings.isFptlEnabled;
 
             // OverrideMask
-            newFrameSettingsOverrideMask.mask = new CheapBoolArray128();
+            newFrameSettingsOverrideMask.mask = new CheapBitArray128();
             Array values = Enum.GetValues(typeof(ObsoleteFrameSettingsOverrides));
             foreach (ObsoleteFrameSettingsOverrides val in values)
             {

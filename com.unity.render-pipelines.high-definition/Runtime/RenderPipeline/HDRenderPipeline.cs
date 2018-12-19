@@ -840,17 +840,12 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
             if (!isAnyCamerasAReflectionCamera)
             {
-            // TODO: Render only visible probes
+                // TODO: Render only visible probes
                 var realtimeViewIndependentProbes = HDProbeSystem.realtimeViewIndependentProbes;
                 HDProbeSystem.RenderAndUpdateRealtimeRenderDataIfRequired(
                     realtimeViewIndependentProbes, null
                 );
             }
-
-            // We first update the state of asset frame settings as they can be use by various camera
-            // but we keep the dirty state to correctly reset other camera that use RenderingPath.Default.
-            bool assetFrameSettingsIsDirty = m_Asset.frameSettingsIsDirty;
-            m_Asset.UpdateDirtyFrameSettings();
 
             foreach (var camera in cameras)
             {
@@ -867,6 +862,8 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 // Compute the FrameSettings actually used to draw the frame
                 // Detailed FrameSettings in DebugMenu will be recomputed later only if needed
                 FrameSettings.AggregateFrameSettings(ref currentFrameSettings, camera, additionalCameraData, m_Asset);
+                if (debugFrameSettings.ContainsKey(camera))
+                    currentFrameSettings = debugFrameSettings(camera);
 
                 // This is the main command buffer used for the frame.
                 var cmd = CommandBufferPool.Get("");

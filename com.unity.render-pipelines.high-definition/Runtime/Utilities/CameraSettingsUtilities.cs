@@ -13,7 +13,9 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             var add = cam.GetComponent<HDAdditionalCameraData>()
                 ?? cam.gameObject.AddComponent<HDAdditionalCameraData>();
 
-            add.SetPersistentFrameSettings(settings.renderingPathCustomFrameSettings);
+            // FrameSettings 
+            add.defaultFrameSettings = settings.defaultFrameSettings;
+            add.renderingPathCustomFrameSettings = settings.renderingPathCustomFrameSettings;
             // Frustum
             cam.nearClipPlane = settings.frustum.nearClipPlane;
             cam.farClipPlane = settings.frustum.farClipPlane;
