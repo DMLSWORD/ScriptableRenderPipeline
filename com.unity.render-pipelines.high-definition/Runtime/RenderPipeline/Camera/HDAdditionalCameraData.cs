@@ -192,5 +192,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 customRender(renderContext, hdCamera);
             }
         }
+
+        Action IDebugData.GetReset() => renderingPathCustomFrameSettings.GetReset();
     }
 }

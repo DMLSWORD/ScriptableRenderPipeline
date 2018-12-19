@@ -860,10 +860,11 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 var additionalCameraData = camera.GetComponent<HDAdditionalCameraData>();
 
                 // Compute the FrameSettings actually used to draw the frame
-                // Detailed FrameSettings in DebugMenu will be recomputed later only if needed
-                FrameSettings.AggregateFrameSettings(ref currentFrameSettings, camera, additionalCameraData, m_Asset);
-                if (debugFrameSettings.ContainsKey(camera))
-                    currentFrameSettings = debugFrameSettings(camera);
+                // FrameSettingsHistory do the same while keeping all step of FrameSettings aggregation in memory for DebugMenu
+                if (DebugManager.instance.haveChange)
+                    FrameSettingsHistory.AggregateFrameSettings(ref currentFrameSettings, camera, additionalCameraData, m_Asset);
+                else
+                    FrameSettings.AggregateFrameSettings(ref currentFrameSettings, camera, additionalCameraData, m_Asset);
 
                 // This is the main command buffer used for the frame.
                 var cmd = CommandBufferPool.Get("");

@@ -153,6 +153,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         [DebugMenuField(path: "Light Loop Settings")]
         TileAndCluster = 125,
         Reflection = 126, //set by engine, not for DebugMenu
+        DebugMenuTriggerReset = 127 //set by engine for DebugMenu
 
         //only 128 booleans saved. For more, change the CheapBitArray used
     }
@@ -164,7 +165,9 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         [SerializeField]
         public CheapBitArray128 mask;
     }
-    
+
+   
+
     // The settings here are per frame settings.
     // Each camera must have its own per frame settings
     [Serializable]
@@ -252,9 +255,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             })
         };
         public static readonly FrameSettings defaultCustomOrBakeReflectionProbe = defaultCamera;
-        
-        internal static Dictionary<Camera, FrameSettings> debugFrameSettings = new Dictionary<Camera, FrameSettings>();
-        internal static Dictionary<Camera, FrameSettings> debugPreviousAggregattedFrameSettings = new Dictionary<Camera, FrameSettings>();
 
         [SerializeField]
         CheapBitArray128 bitDatas;
@@ -570,17 +570,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             if (additionalData && additionalData.customRenderingSettings)
                 Override(ref aggregatedFrameSettings, additionalData.renderingPathCustomFrameSettings, additionalData.renderingPathCustomOverrideFrameSettings);
             Sanitize(ref aggregatedFrameSettings, camera, hdrpAsset.GetRenderPipelineSettings());
-
-            if (debugFrameSettings.ContainsKey(camera))
-            {
-                if(debugPreviousAggregattedFrameSettings[camera] != aggregatedFrameSettings)
-                {
-                    debugPreviousAggregattedFrameSettings[camera] = aggregatedFrameSettings;
-                    debugFrameSettings[camera] = aggregatedFrameSettings;
-                }
-                aggregatedFrameSettings = debugFrameSettings[camera];
-                return;
-            }
         }
         
         public static bool operator ==(FrameSettings a, FrameSettings b) => a.bitDatas == b.bitDatas;
@@ -589,83 +578,61 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         public override int GetHashCode() => -1690259335 + bitDatas.GetHashCode();
     }
 
-    public class DebugFrameSettings
+
+    public struct FrameSettingsHistory : IDebugData
     {
-        public readonly FrameSettingsRenderType type;
-        public Camera camera;
-        public HDAdditionalCameraData additionalCameraData;
-        public HDProbe probe;
-        public FrameSettings debugOverride;
+        public FrameSettingsRenderType defaultType;
+        public FrameSettings custom;
+        public FrameSettingsOverrideMask customMask;
+        public FrameSettings sanitazed;
+        public FrameSettings debug;
+        bool m_DebugMenuResetTriggered;
 
-        FrameSettings @default;
-        FrameSettings customOverride;
-        FrameSettingsOverrideMask customOverrideMask;
-        FrameSettings Sanitazed;
+        internal static Dictionary<Camera, FrameSettingsHistory> frameSettingsHistory = new Dictionary<Camera, FrameSettingsHistory>();
 
-        public DebugFrameSettings(FrameSettingsRenderType type, Camera camera = null, HDAdditionalCameraData additionalCameraData = null, HDProbe probe = null)
+        public static void AggregateFrameSettings(ref FrameSettings aggregatedFrameSettings, Camera camera, HDAdditionalCameraData additionalData, HDRenderPipelineAsset hdrpAsset)
         {
-            this.type = type;
-            switch(type)
+            FrameSettingsHistory history = new FrameSettingsHistory();
+            history.defaultType = additionalData.defaultFrameSettings;
+            aggregatedFrameSettings = hdrpAsset.GetDefaultFrameSettings(additionalData.defaultFrameSettings);
+            if (additionalData && additionalData.customRenderingSettings)
             {
-                case FrameSettingsRenderType.Camera:
-                    Assertions.Assert.IsNotNull(camera);
-                    Assertions.Assert.IsNotNull(additionalCameraData);
-                    probe = null;
-                    break;
-                case FrameSettingsRenderType.CustomOrBakedReflection:
-                case FrameSettingsRenderType.RealtimeReflection:
-                    Assertions.Assert.IsNotNull(probe);
-                    camera = null;
-                    additionalCameraData = null;
-                    break;
-                default:
-                    throw new ArgumentException("Unknown FrameSettingsRenderType");
+                FrameSettings.Override(ref aggregatedFrameSettings, additionalData.renderingPathCustomFrameSettings, additionalData.renderingPathCustomOverrideFrameSettings);
+                history.customMask = additionalData.renderingPathCustomOverrideFrameSettings;
             }
-            debugOverride = Sanitazed = customOverride = @default;
-            this.camera = camera;
-            this.additionalCameraData = additionalCameraData;
-            this.probe = probe;
-            customOverrideMask = new FrameSettingsOverrideMask();
+            history.custom = aggregatedFrameSettings;
+            FrameSettings.Sanitize(ref aggregatedFrameSettings, camera, hdrpAsset.GetRenderPipelineSettings());
 
-            //first init: fill all step
-            Update();
-            //first init: set debug override to no override
-            Reset();
+            bool firstTime = !frameSettingsHistory.ContainsKey(camera);
+            bool dirty =
+                history.sanitazed != aggregatedFrameSettings                // updated components/asset
+                || firstTime                                                // no history yet
+                || frameSettingsHistory[camera].m_DebugMenuResetTriggered;  // reset requested by debug menu on previous frame
+
+            history.sanitazed = aggregatedFrameSettings;
+
+            if (dirty)
+                history.debug = history.sanitazed;
+
+            aggregatedFrameSettings = history.debug;
+
+            if (firstTime)
+                RegisterDebug(camera.name, history);
         }
-
-        public void Reset()
-        {
-            debugOverride = Sanitazed;
-        }
-
-        public void Update()
-        {
-            var hdrpAsset = ((HDRenderPipeline)RenderPipelineManager.currentPipeline)?.asset;
-            if (hdrpAsset == null)
-                return;
-
-            //duplicate of FrameSettings.Aggregate witgh step saves
-            @default = hdrpAsset.GetDefaultFrameSettings(FrameSettingsRenderType.Camera);
-            customOverride = @default;
-            if (additionalCameraData.customRenderingSettings)
-                FrameSettings.Override(ref customOverride, additionalCameraData.renderingPathCustomFrameSettings, customOverrideMask = additionalCameraData.renderingPathCustomOverrideFrameSettings);
-            Sanitazed = customOverride;
-            FrameSettings.Sanitize(ref Sanitazed, camera, hdrpAsset.GetRenderPipelineSettings());
-        }
-
-        ref FrameSettings persistantFrameSettings
+        
+        ref FrameSettingsHistory persistantFrameSettings
         {
             get
             {
                 unsafe
                 {
-                    fixed (FrameSettings* pthis = &this)
+                    fixed (FrameSettingsHistory* pthis = &this)
                         return ref *pthis;
                 }
             }
         }
 
-        public static void RegisterDebug(string menuName, FrameSettings frameSettings)
+        public static void RegisterDebug(string menuName, FrameSettingsHistory frameSettings)
         {
             var persistant = frameSettings.persistantFrameSettings;
             List<DebugUI.Widget> widgets = new List<DebugUI.Widget>();
@@ -755,5 +722,8 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         {
             DebugManager.instance.RemovePanel(menuName);
         }
+
+        void TriggerReset() => m_DebugMenuResetTriggered = true;
+        Action IDebugData.GetReset() => TriggerReset;
     }
 }
