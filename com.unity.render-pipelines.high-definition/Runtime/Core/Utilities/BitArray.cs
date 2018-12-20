@@ -9,7 +9,7 @@ namespace UnityEngine.Experimental.Rendering
         uint capacity { get; }
         bool allFalse { get; }
         bool allTrue { get; }
-        bool this[int index] { get; set; }
+        bool this[uint index] { get; set; }
         string humanizedData { get; }
     }
 
@@ -24,16 +24,10 @@ namespace UnityEngine.Experimental.Rendering
         public bool allTrue => data == byte.MaxValue;
         public string humanizedData => String.Format("%" + capacity + "s", Convert.ToString(data, 2).Replace(' ', '0'));
 
-        public bool this[int index]
+        public bool this[uint index]
         {
-            get => (data & (1u << (int)index)) != 0u;
-            set
-            {
-                if (value)
-                    data = (byte)(data | (1u << (int)index));
-                else
-                    data = (byte)(data & ~(1u << (int)index));
-            }
+            get => CheapBitArrayUtilities.Get8(index, data);
+            set => CheapBitArrayUtilities.Set8(index, ref data, value);
         }
 
         public CheapBitArray8(byte initValue) => data = initValue;
@@ -68,16 +62,10 @@ namespace UnityEngine.Experimental.Rendering
         public string humanizedData => System.Text.RegularExpressions.Regex.Replace(String.Format("%" + capacity + "s", Convert.ToString(data, 2).Replace(' ', '0')), ".{8}", "$0.");
 
 
-        public bool this[int index]
+        public bool this[uint index]
         {
-            get => (data & (1u << (int)index)) != 0u;
-            set
-            {
-                if (value)
-                    data = (ushort)(data | (1u << (int)index));
-                else
-                    data = (ushort)(data & ~(1u << (int)index));
-            }
+            get => CheapBitArrayUtilities.Get16(index, data);
+            set => CheapBitArrayUtilities.Set16(index, ref data, value);
         }
 
         public CheapBitArray16(ushort initValue) => data = initValue;
@@ -112,16 +100,10 @@ namespace UnityEngine.Experimental.Rendering
         string humanizedVersion => Convert.ToString(data, 2);
         public string humanizedData => System.Text.RegularExpressions.Regex.Replace(String.Format("%" + capacity + "s", Convert.ToString(data, 2).Replace(' ', '0')), ".{8}", "$0.");
 
-        public bool this[int index]
+        public bool this[uint index]
         {
-            get => (data & (1u << (int)index)) != 0u;
-            set
-            {
-                if (value)
-                    data = data | (1u << (int)index);
-                else
-                    data = data & ~(1u << (int)index);
-            }
+            get => CheapBitArrayUtilities.Get32(index, data);
+            set => CheapBitArrayUtilities.Set32(index, ref data, value);
         }
 
         public CheapBitArray32(uint initValue) => data = initValue;
@@ -155,16 +137,10 @@ namespace UnityEngine.Experimental.Rendering
         public bool allTrue => data == ulong.MaxValue;
         public string humanizedData => System.Text.RegularExpressions.Regex.Replace(String.Format("%" + capacity + "s", Convert.ToString((long)data, 2).Replace(' ', '0')), ".{8}", "$0.");
 
-        public bool this[int index]
+        public bool this[uint index]
         {
-            get => (data & (1uL << (int)index)) != 0uL;
-            set
-            {
-                if (value)
-                    data = data | (1uL << (int)index);
-                else
-                    data = data & ~(1uL << (int)index);
-            }
+            get => CheapBitArrayUtilities.Get64(index, data);
+            set => CheapBitArrayUtilities.Set64(index, ref data, value);
         }
 
         public CheapBitArray64(ulong initValue) => data = initValue;
@@ -192,48 +168,39 @@ namespace UnityEngine.Experimental.Rendering
     public struct CheapBitArray128 : ICheapBitArray
     {
         [SerializeField]
-        CheapBitArray64 data1;
+        ulong data1;
         [SerializeField]
-        CheapBitArray64 data2;
+        ulong data2;
 
         public uint capacity => 128u;
-        public bool allFalse => data1.allFalse && data2.allFalse;
-        public bool allTrue => data1.allTrue && data2.allTrue;
-        public string humanizedData => data1.humanizedData + "." + data2.humanizedData;
+        public bool allFalse => data1 == 0uL && data2 == 0uL;
+        public bool allTrue => data1 == ulong.MaxValue && data2 == ulong.MaxValue;
+        public string humanizedData =>
+            System.Text.RegularExpressions.Regex.Replace(String.Format("%" + capacity + "s", Convert.ToString((long)data1, 2).Replace(' ', '0')), ".{8}", "$0.")
+            + "." +
+            System.Text.RegularExpressions.Regex.Replace(String.Format("%" + capacity + "s", Convert.ToString((long)data2, 2).Replace(' ', '0')), ".{8}", "$0.");
 
-        public bool this[int index]
+        public bool this[uint index]
         {
-            get => (index < 64u) ? data1[index] : data2[index - 64];
-            set
-            {
-                if (index < 64u)
-                    data1[index] = value;
-                else
-                    data2[index - 64] = value;
-            }
+            get => CheapBitArrayUtilities.Get128(index, data1, data2);
+            set => CheapBitArrayUtilities.Set128(index, ref data1, ref data2, value);
         }
 
         public CheapBitArray128(ulong initValue1, ulong initValue2)
         {
-            data1 = new CheapBitArray64(initValue1);
-            data2 = new CheapBitArray64(initValue2);
+            data1 = initValue1;
+            data2 = initValue2;
         }
         public CheapBitArray128(IEnumerable<uint> bitIndexTrue)
         {
+            data1 = data2 = 0uL;
             if (bitIndexTrue == null)
-            {
-                data1 = new CheapBitArray64(0uL);
-                data2 = new CheapBitArray64(0uL);
                 return;
-            }
             var groups = bitIndexTrue.GroupBy(idx => idx < 128u);
-            data1 = new CheapBitArray64(groups.First());
-            data2 = new CheapBitArray64(groups.Last());
-        }
-        private CheapBitArray128(CheapBitArray64 initValue1, CheapBitArray64 initValue2)
-        {
-            data1 = initValue1;
-            data2 = initValue2;
+            for (int index = groups.First().Count() - 1; index >= 0; --index)
+                data1 += 1uL << (int)bitIndexTrue.ElementAt(index);
+            for (int index = groups.Last().Count() - 1; index >= 0; --index)
+                data2 += 1uL << (int)bitIndexTrue.ElementAt(index);
         }
 
         public static CheapBitArray128 operator ~(CheapBitArray128 a) => new CheapBitArray128(~a.data1, a.data2);
@@ -249,6 +216,30 @@ namespace UnityEngine.Experimental.Rendering
             hashCode = hashCode * -1521134295 + data1.GetHashCode();
             hashCode = hashCode * -1521134295 + data2.GetHashCode();
             return hashCode;
+        }
+    }
+
+
+
+
+    public static class CheapBitArrayUtilities
+    {
+        //written here to not duplicate the serialized accessor and runtime accessor
+        public static bool Get8(uint index, byte data) => (data & (1u << (int)index)) != 0u;
+        public static bool Get16(uint index, ushort data) => (data & (1u << (int)index)) != 0u;
+        public static bool Get32(uint index, uint data) => (data & (1u << (int)index)) != 0u;
+        public static bool Get64(uint index, ulong data) => (data & (1uL << (int)index)) != 0uL;
+        public static bool Get128(uint index, ulong data1, ulong data2) => index < 64u ? (data1 & (1uL << (int)index)) != 0uL : (data2 & (1uL << (int)index)) != 0uL;
+        public static void Set8(uint index, ref byte data, bool value) => data = (byte)(value ? (data | (1u << (int)index)) : (data & ~(1u << (int)index)));
+        public static void Set16(uint index, ref ushort data, bool value) => data = (ushort)(value ? (data | (1u << (int)index)) : (data & ~(1u << (int)index)));
+        public static void Set32(uint index, ref uint data, bool value) => data = (value ? (data | (1u << (int)index)) : (data & ~(1u << (int)index)));
+        public static void Set64(uint index, ref ulong data, bool value) => data = (value ? (data | (1uL << (int)index)) : (data & ~(1uL << (int)index)));
+        public static void Set128(uint index, ref ulong data1, ref ulong data2, bool value)
+        {
+            if (index < 64u)
+                data1 = (value ? (data1 | (1uL << (int)index)) : (data1 & ~(1uL << (int)index)));
+            else
+                data2 = (value ? (data2 | (1uL << (int)(index - 64u))) : (data2 & ~(1uL << (int)(index - 64u))));
         }
     }
 }
