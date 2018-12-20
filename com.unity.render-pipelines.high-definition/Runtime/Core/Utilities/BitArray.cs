@@ -135,7 +135,7 @@ namespace UnityEngine.Experimental.Rendering
         public uint capacity => 64u;
         public bool allFalse => data == 0uL;
         public bool allTrue => data == ulong.MaxValue;
-        public string humanizedData => System.Text.RegularExpressions.Regex.Replace(String.Format("%" + capacity + "s", Convert.ToString((long)data, 2).Replace(' ', '0')), ".{8}", "$0.");
+        public string humanizedData => System.Text.RegularExpressions.Regex.Replace(String.Format("{0, " + capacity + "}", Convert.ToString((long)data, 2).Replace(' ', '0')), ".{8}", "$0.");
 
         public bool this[uint index]
         {
@@ -176,9 +176,9 @@ namespace UnityEngine.Experimental.Rendering
         public bool allFalse => data1 == 0uL && data2 == 0uL;
         public bool allTrue => data1 == ulong.MaxValue && data2 == ulong.MaxValue;
         public string humanizedData =>
-            System.Text.RegularExpressions.Regex.Replace(String.Format("%" + capacity + "s", Convert.ToString((long)data1, 2).Replace(' ', '0')), ".{8}", "$0.")
+            System.Text.RegularExpressions.Regex.Replace(String.Format("{0, " + capacity + "}", Convert.ToString((long)data1, 2).Replace(' ', '0')), ".{8}", "$0.")
             + "." +
-            System.Text.RegularExpressions.Regex.Replace(String.Format("%" + capacity + "s", Convert.ToString((long)data2, 2).Replace(' ', '0')), ".{8}", "$0.");
+            System.Text.RegularExpressions.Regex.Replace(String.Format("{0, " + capacity + "}", Convert.ToString((long)data2, 2).Replace(' ', '0')), ".{8}", "$0.");
 
         public bool this[uint index]
         {

@@ -133,6 +133,8 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             }
             else
             {
+                Debug.Log(field);
+                Debug.Log(field.property);
                 switch (field.property.propertyType)
                 {
                     case SerializedPropertyType.String:

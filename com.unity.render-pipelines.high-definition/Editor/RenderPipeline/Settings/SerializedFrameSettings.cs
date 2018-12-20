@@ -65,202 +65,202 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
         // Rendering Pass
         public bool overridesTransparentPrepass
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.TransparentPrepass).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.TransparentPrepass).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.TransparentPrepass);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.TransparentPrepass, value);
         }
         public bool overridesTransparentPostpass
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.TransparentPostpass).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.TransparentPostpass).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.TransparentPostpass);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.TransparentPostpass, value);
         }
         public bool overridesMotionVectors
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.MotionVectors).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.MotionVectors).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.MotionVectors);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.MotionVectors, value);
         }
         public bool overridesObjectMotionVectors
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ObjectMotionVectors).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ObjectMotionVectors).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.ObjectMotionVectors);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.ObjectMotionVectors, value);
         }
         public bool overridesDecals
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.Decals).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.Decals).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.Decals);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.Decals, value);
         }
         public bool overridesRoughRefraction
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.RoughRefraction).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.RoughRefraction).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.RoughRefraction);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.RoughRefraction, value);
         }
         public bool overridesDistortion
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.Distortion).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.Distortion).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.Distortion);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.Distortion, value);
         }
         public bool overridesPostprocess
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.Postprocess).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.Postprocess).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.Postprocess);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.Postprocess, value);
         }
 
         // Rendering Settings
         public bool overridesShaderLitMode
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ShaderLitMode).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ShaderLitMode).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.ShaderLitMode);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.ShaderLitMode, value);
         }
         public bool overridesDepthPrepassWithDeferredRendering
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.DepthPrepassWithDeferredRendering).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.DepthPrepassWithDeferredRendering).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.DepthPrepassWithDeferredRendering);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.DepthPrepassWithDeferredRendering, value);
         }
         public bool overridesOpaqueObjects
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.OpaqueObjects).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.OpaqueObjects).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.OpaqueObjects);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.OpaqueObjects, value);
         }
         public bool overridesTransparentObjects
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.TransparentObjects).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.TransparentObjects).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.TransparentObjects);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.TransparentObjects, value);
         }
         public bool overridesRealtimePlanarReflection
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.RealtimePlanarReflection).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.RealtimePlanarReflection).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.RealtimePlanarReflection);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.RealtimePlanarReflection, value);
         }
         public bool overridesMSAA
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.MSAA).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.MSAA).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.MSAA);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.MSAA, value);
         }
 
         // Lighting Settings
         public bool overridesSSR
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.SSR).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.SSR).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.SSR);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.SSR, value);
         }
         public bool overridesSSAO
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.SSAO).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.SSAO).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.SSAO);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.SSAO, value);
         }
         public bool overridesSubsurfaceScattering
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.SubsurfaceScattering).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.SubsurfaceScattering).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.SubsurfaceScattering);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.SubsurfaceScattering, value);
         }
         public bool overridesTransmission
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.Transmission).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.Transmission).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.Transmission);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.Transmission, value);
         }
         public bool overridesShadow
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.Shadow).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.Shadow).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.Shadow);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.Shadow, value);
         }
         public bool overridesContactShadow
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ContactShadow).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ContactShadow).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.ContactShadow);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.ContactShadow, value);
         }
         public bool overridesShadowMask
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ShadowMask).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ShadowMask).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.ShadowMask);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.ShadowMask, value);
         }
         public bool overridesAtmosphericScaterring
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.AtmosphericScaterring).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.AtmosphericScaterring).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.AtmosphericScaterring);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.AtmosphericScaterring, value);
         }
         public bool overridesVolumetrics
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.Volumetrics).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.Volumetrics).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.Volumetrics);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.Volumetrics, value);
         }
         public bool overridesProjectionForVolumetrics
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ReprojectionForVolumetrics).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ReprojectionForVolumetrics).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.ReprojectionForVolumetrics);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.ReprojectionForVolumetrics, value);
         }
         public bool overridesLightLayers
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.LightLayers).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.LightLayers).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.LightLayers);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.LightLayers, value);
         }
         
         // Async Compute Settings
         public bool overridesAsyncCompute
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.AsyncCompute).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.AsyncCompute).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.AsyncCompute);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.AsyncCompute, value);
         }
         public bool overridesLightListAsync
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.LightListAsync).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.LightListAsync).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.LightListAsync);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.LightListAsync, value);
         }
         public bool overridesSSRAsync
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.SSRAsync).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.SSRAsync).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.SSRAsync);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.SSRAsync, value);
         }
         public bool overridesSSAOAsync
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.SSAOAsync).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.SSAOAsync).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.SSAOAsync);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.SSAOAsync, value);
         }
         public bool overridesContactShadowsAsync
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ContactShadowsAsync).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ContactShadowsAsync).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.ContactShadowsAsync);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.ContactShadowsAsync, value);
         }
         public bool overridesVolumeVoxelizationAsync
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.VolumeVoxelizationsAsync).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.VolumeVoxelizationsAsync).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.VolumeVoxelizationsAsync);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.VolumeVoxelizationsAsync, value);
         }
 
         // Light Loop Settings
         public bool overridesTileAndCluster
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.TileAndCluster).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.TileAndCluster).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.TileAndCluster);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.TileAndCluster, value);
         }
         public bool overridesFptlForForwardOpaque
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.FptlForForwardOpaque).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.FptlForForwardOpaque).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.FptlForForwardOpaque);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.FptlForForwardOpaque, value);
         }
         public bool overridesBigTilePrepass
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.BigTilePrepass).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.BigTilePrepass).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.BigTilePrepass);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.BigTilePrepass, value);
         }
         public bool overridesComputeLightEvaluation
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ComputeLightEvaluation).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ComputeLightEvaluation).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.ComputeLightEvaluation);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.ComputeLightEvaluation, value);
         }
         public bool overridesComputeLightVariants
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ComputeLightVariants).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ComputeLightVariants).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.ComputeLightVariants);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.ComputeLightVariants, value);
         }
         public bool overridesComputeMaterialVariants
         {
-            get => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ComputeMaterialVariants).boolValue;
-            set => rootOveride.GetArrayElementAtIndex((int)FrameSettingsField.ComputeMaterialVariants).boolValue = value;
+            get => SerializedBitArrayUrtilities.Get128(rootOveride, (uint)FrameSettingsField.ComputeMaterialVariants);
+            set => SerializedBitArrayUrtilities.Set128(rootOveride, (uint)FrameSettingsField.ComputeMaterialVariants, value);
         }
 
         public SerializedFrameSettings(SerializedProperty rootData, SerializedProperty rootOverride)
         {
             this.rootData = rootData;
-            this.rootOveride = rootOverride;
+            this.rootOveride = rootOverride.FindPropertyRelative("mask");
 
             // Rendering Pass
             transparentPrepass = rootData.Find((FrameSettings d) => d.transparentPrepass);

@@ -16,7 +16,7 @@ namespace UnityEditor.Experimental.Rendering
         public static bool Get64(this SerializedProperty property, uint bitIndex)
             => CheapBitArrayUtilities.Get64(bitIndex, (ulong)property.FindPropertyRelative("data").longValue);
         public static bool Get128(this SerializedProperty property, uint bitIndex)
-            => CheapBitArrayUtilities.Get128(bitIndex, (ulong)property.FindPropertyRelative("data1").intValue, (ulong)property.FindPropertyRelative("data2").intValue);
+            => CheapBitArrayUtilities.Get128(bitIndex, (ulong)property.FindPropertyRelative("data1").longValue, (ulong)property.FindPropertyRelative("data2").longValue);
 
         public static void Set8(this SerializedProperty property, uint bitIndex, bool value)
         {
