@@ -94,21 +94,21 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         MSAA = 11,
 
         //rendering pass from 20 to 39
-        [DebugMenuField(path: "Rendering Pass")]
+        [DebugMenuField(path: "Rendering Passes")]
         TransparentPrepass = 20,
-        [DebugMenuField(path: "Rendering Pass")]
+        [DebugMenuField(path: "Rendering Passes")]
         TransparentPostpass = 21,
-        [DebugMenuField(path: "Rendering Pass")]
+        [DebugMenuField(path: "Rendering Passes")]
         MotionVectors = 22,
-        [DebugMenuField(path: "Rendering Pass")]
+        [DebugMenuField(path: "Rendering Passes")]
         ObjectMotionVectors = 23,
-        [DebugMenuField(path: "Rendering Pass")]
+        [DebugMenuField(path: "Rendering Passes")]
         Decals = 24,
-        [DebugMenuField(path: "Rendering Pass")]
+        [DebugMenuField(path: "Rendering Passes")]
         RoughRefraction = 25,
-        [DebugMenuField(path: "Rendering Pass")]
+        [DebugMenuField(path: "Rendering Passes")]
         Distortion = 26,
-        [DebugMenuField(path: "Rendering Pass")]
+        [DebugMenuField(path: "Rendering Passes")]
         Postprocess = 27,
 
         //rendering settings from 40 to 59
@@ -606,7 +606,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             
             bool dirty =
                 history.sanitazed != aggregatedFrameSettings                // updated components/asset
-                || !frameSettingsHistory.ContainsKey(camera)                                                // no history yet
+                || !frameSettingsHistory.ContainsKey(camera)                // no history yet
                 || frameSettingsHistory[camera].m_DebugMenuResetTriggered;  // reset requested by debug menu on previous frame
 
             history.sanitazed = aggregatedFrameSettings;
@@ -628,6 +628,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             }
 
             aggregatedFrameSettings = history.debug;
+            frameSettingsHistory[camera] = history;
         }
         
         ref FrameSettingsHistory persistantFrameSettingsHistory
