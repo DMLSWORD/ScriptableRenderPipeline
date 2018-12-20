@@ -261,200 +261,200 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         
         public LitShaderMode shaderLitMode
         {
-            get => bitDatas[(uint)FrameSettingsField.ShaderLitMode] ? LitShaderMode.Deferred : LitShaderMode.Forward;
-            set => bitDatas[(uint)FrameSettingsField.ShaderLitMode] = value == LitShaderMode.Deferred;
+            get => bitDatas[(int)FrameSettingsField.ShaderLitMode] ? LitShaderMode.Deferred : LitShaderMode.Forward;
+            set => bitDatas[(int)FrameSettingsField.ShaderLitMode] = value == LitShaderMode.Deferred;
         }
         public bool shadow
         {
-            get => bitDatas[(uint)FrameSettingsField.Shadow];
-            set => bitDatas[(uint)FrameSettingsField.Shadow] = value;
+            get => bitDatas[(int)FrameSettingsField.Shadow];
+            set => bitDatas[(int)FrameSettingsField.Shadow] = value;
         }
         public bool contactShadows
         {
-            get => bitDatas[(uint)FrameSettingsField.ContactShadow];
-            set => bitDatas[(uint)FrameSettingsField.ContactShadow] = value;
+            get => bitDatas[(int)FrameSettingsField.ContactShadow];
+            set => bitDatas[(int)FrameSettingsField.ContactShadow] = value;
         }
         public bool shadowMask
         {
-            get => bitDatas[(uint)FrameSettingsField.ShadowMask];
-            set => bitDatas[(uint)FrameSettingsField.ShadowMask] = value;
+            get => bitDatas[(int)FrameSettingsField.ShadowMask];
+            set => bitDatas[(int)FrameSettingsField.ShadowMask] = value;
         }
         public bool ssr
         {
-            get => bitDatas[(uint)FrameSettingsField.SSR];
-            set => bitDatas[(uint)FrameSettingsField.SSR] = value;
+            get => bitDatas[(int)FrameSettingsField.SSR];
+            set => bitDatas[(int)FrameSettingsField.SSR] = value;
         }
         public bool ssao
         {
-            get => bitDatas[(uint)FrameSettingsField.SSAO];
-            set => bitDatas[(uint)FrameSettingsField.SSAO] = value;
+            get => bitDatas[(int)FrameSettingsField.SSAO];
+            set => bitDatas[(int)FrameSettingsField.SSAO] = value;
         }
         public bool subsurfaceScattering
         {
-            get => bitDatas[(uint)FrameSettingsField.SubsurfaceScattering];
-            set => bitDatas[(uint)FrameSettingsField.SubsurfaceScattering] = value;
+            get => bitDatas[(int)FrameSettingsField.SubsurfaceScattering];
+            set => bitDatas[(int)FrameSettingsField.SubsurfaceScattering] = value;
         }
         public bool transmission
         {
-            get => bitDatas[(uint)FrameSettingsField.Transmission];
-            set => bitDatas[(uint)FrameSettingsField.Transmission] = value;
+            get => bitDatas[(int)FrameSettingsField.Transmission];
+            set => bitDatas[(int)FrameSettingsField.Transmission] = value;
         }
         public bool atmosphericScattering
         {
-            get => bitDatas[(uint)FrameSettingsField.AtmosphericScaterring];
-            set => bitDatas[(uint)FrameSettingsField.AtmosphericScaterring] = value;
+            get => bitDatas[(int)FrameSettingsField.AtmosphericScaterring];
+            set => bitDatas[(int)FrameSettingsField.AtmosphericScaterring] = value;
         }
         public bool volumetrics
         {
-            get => bitDatas[(uint)FrameSettingsField.Volumetrics];
-            set => bitDatas[(uint)FrameSettingsField.Volumetrics] = value;
+            get => bitDatas[(int)FrameSettingsField.Volumetrics];
+            set => bitDatas[(int)FrameSettingsField.Volumetrics] = value;
         }
         public bool reprojectionForVolumetrics
         {
-            get => bitDatas[(uint)FrameSettingsField.ReprojectionForVolumetrics];
-            set => bitDatas[(uint)FrameSettingsField.ReprojectionForVolumetrics] = value;
+            get => bitDatas[(int)FrameSettingsField.ReprojectionForVolumetrics];
+            set => bitDatas[(int)FrameSettingsField.ReprojectionForVolumetrics] = value;
         }
         public bool lightLayers
         {
-            get => bitDatas[(uint)FrameSettingsField.LightLayers];
-            set => bitDatas[(uint)FrameSettingsField.LightLayers] = value;
+            get => bitDatas[(int)FrameSettingsField.LightLayers];
+            set => bitDatas[(int)FrameSettingsField.LightLayers] = value;
         }
         public bool depthPrepassWithDeferredRendering
         {
-            get => bitDatas[(uint)FrameSettingsField.DepthPrepassWithDeferredRendering];
-            set => bitDatas[(uint)FrameSettingsField.DepthPrepassWithDeferredRendering] = value;
+            get => bitDatas[(int)FrameSettingsField.DepthPrepassWithDeferredRendering];
+            set => bitDatas[(int)FrameSettingsField.DepthPrepassWithDeferredRendering] = value;
         }
         public bool transparentPrepass
         {
-            get => bitDatas[(uint)FrameSettingsField.TransparentPrepass];
-            set => bitDatas[(uint)FrameSettingsField.TransparentPrepass] = value;
+            get => bitDatas[(int)FrameSettingsField.TransparentPrepass];
+            set => bitDatas[(int)FrameSettingsField.TransparentPrepass] = value;
         }
         public bool motionVectors
         {
-            get => bitDatas[(uint)FrameSettingsField.MotionVectors];
-            set => bitDatas[(uint)FrameSettingsField.MotionVectors] = value;
+            get => bitDatas[(int)FrameSettingsField.MotionVectors];
+            set => bitDatas[(int)FrameSettingsField.MotionVectors] = value;
         }
         public bool objectMotionVectors
         {
-            get => bitDatas[(uint)FrameSettingsField.ObjectMotionVectors];
-            set => bitDatas[(uint)FrameSettingsField.ObjectMotionVectors] = value;
+            get => bitDatas[(int)FrameSettingsField.ObjectMotionVectors];
+            set => bitDatas[(int)FrameSettingsField.ObjectMotionVectors] = value;
         }
         public bool decals
         {
-            get => bitDatas[(uint)FrameSettingsField.Decals];
-            set => bitDatas[(uint)FrameSettingsField.Decals] = value;
+            get => bitDatas[(int)FrameSettingsField.Decals];
+            set => bitDatas[(int)FrameSettingsField.Decals] = value;
         }
         public bool roughRefraction
         {
-            get => bitDatas[(uint)FrameSettingsField.RoughRefraction];
-            set => bitDatas[(uint)FrameSettingsField.RoughRefraction] = value;
+            get => bitDatas[(int)FrameSettingsField.RoughRefraction];
+            set => bitDatas[(int)FrameSettingsField.RoughRefraction] = value;
         }
         public bool transparentPostpass
         {
-            get => bitDatas[(uint)FrameSettingsField.TransparentPostpass];
-            set => bitDatas[(uint)FrameSettingsField.TransparentPostpass] = value;
+            get => bitDatas[(int)FrameSettingsField.TransparentPostpass];
+            set => bitDatas[(int)FrameSettingsField.TransparentPostpass] = value;
         }
         public bool distortion
         {
-            get => bitDatas[(uint)FrameSettingsField.Distortion];
-            set => bitDatas[(uint)FrameSettingsField.Distortion] = value;
+            get => bitDatas[(int)FrameSettingsField.Distortion];
+            set => bitDatas[(int)FrameSettingsField.Distortion] = value;
         }
         public bool postprocess
         {
-            get => bitDatas[(uint)FrameSettingsField.Postprocess];
-            set => bitDatas[(uint)FrameSettingsField.Postprocess] = value;
+            get => bitDatas[(int)FrameSettingsField.Postprocess];
+            set => bitDatas[(int)FrameSettingsField.Postprocess] = value;
         }
         public bool opaqueObjects
         {
-            get => bitDatas[(uint)FrameSettingsField.OpaqueObjects];
-            set => bitDatas[(uint)FrameSettingsField.OpaqueObjects] = value;
+            get => bitDatas[(int)FrameSettingsField.OpaqueObjects];
+            set => bitDatas[(int)FrameSettingsField.OpaqueObjects] = value;
         }
         public bool transparentObjects
         {
-            get => bitDatas[(uint)FrameSettingsField.TransparentObjects];
-            set => bitDatas[(uint)FrameSettingsField.TransparentObjects] = value;
+            get => bitDatas[(int)FrameSettingsField.TransparentObjects];
+            set => bitDatas[(int)FrameSettingsField.TransparentObjects] = value;
         }
         public bool realtimePlanarReflection
         {
-            get => bitDatas[(uint)FrameSettingsField.RealtimePlanarReflection];
-            set => bitDatas[(uint)FrameSettingsField.RealtimePlanarReflection] = value;
+            get => bitDatas[(int)FrameSettingsField.RealtimePlanarReflection];
+            set => bitDatas[(int)FrameSettingsField.RealtimePlanarReflection] = value;
         }
         public bool asyncCompute
         {
-            get => bitDatas[(uint)FrameSettingsField.AsyncCompute];
-            set => bitDatas[(uint)FrameSettingsField.AsyncCompute] = value;
+            get => bitDatas[(int)FrameSettingsField.AsyncCompute];
+            set => bitDatas[(int)FrameSettingsField.AsyncCompute] = value;
         }
         public bool lightListAsync
         {
-            get => bitDatas[(uint)FrameSettingsField.LightListAsync];
-            set => bitDatas[(uint)FrameSettingsField.LightListAsync] = value;
+            get => bitDatas[(int)FrameSettingsField.LightListAsync];
+            set => bitDatas[(int)FrameSettingsField.LightListAsync] = value;
         }
         public bool ssaoAsync
         {
-            get => bitDatas[(uint)FrameSettingsField.SSAOAsync];
-            set => bitDatas[(uint)FrameSettingsField.SSAOAsync] = value;
+            get => bitDatas[(int)FrameSettingsField.SSAOAsync];
+            set => bitDatas[(int)FrameSettingsField.SSAOAsync] = value;
         }
         public bool ssrAsync
         {
-            get => bitDatas[(uint)FrameSettingsField.SSRAsync];
-            set => bitDatas[(uint)FrameSettingsField.SSRAsync] = value;
+            get => bitDatas[(int)FrameSettingsField.SSRAsync];
+            set => bitDatas[(int)FrameSettingsField.SSRAsync] = value;
         }
         public bool contactShadowsAsync
         {
-            get => bitDatas[(uint)FrameSettingsField.ContactShadowsAsync];
-            set => bitDatas[(uint)FrameSettingsField.ContactShadowsAsync] = value;
+            get => bitDatas[(int)FrameSettingsField.ContactShadowsAsync];
+            set => bitDatas[(int)FrameSettingsField.ContactShadowsAsync] = value;
         }
         public bool volumeVoxelizationAsync
         {
-            get => bitDatas[(uint)FrameSettingsField.VolumeVoxelizationsAsync];
-            set => bitDatas[(uint)FrameSettingsField.VolumeVoxelizationsAsync] = value;
+            get => bitDatas[(int)FrameSettingsField.VolumeVoxelizationsAsync];
+            set => bitDatas[(int)FrameSettingsField.VolumeVoxelizationsAsync] = value;
         }
         public bool msaa
         {
-            get => bitDatas[(uint)FrameSettingsField.MSAA];
-            set => bitDatas[(uint)FrameSettingsField.MSAA] = value;
+            get => bitDatas[(int)FrameSettingsField.MSAA];
+            set => bitDatas[(int)FrameSettingsField.MSAA] = value;
         }
         public bool tileAndCluster
         {
-            get => bitDatas[(uint)FrameSettingsField.TileAndCluster];
-            set => bitDatas[(uint)FrameSettingsField.TileAndCluster] = value;
+            get => bitDatas[(int)FrameSettingsField.TileAndCluster];
+            set => bitDatas[(int)FrameSettingsField.TileAndCluster] = value;
         }
         public bool computeLightEvaluation
         {
-            get => bitDatas[(uint)FrameSettingsField.ComputeLightEvaluation];
-            set => bitDatas[(uint)FrameSettingsField.ComputeLightEvaluation] = value;
+            get => bitDatas[(int)FrameSettingsField.ComputeLightEvaluation];
+            set => bitDatas[(int)FrameSettingsField.ComputeLightEvaluation] = value;
         }
         public bool computeLightVariants
         {
-            get => bitDatas[(uint)FrameSettingsField.ComputeLightVariants];
-            set => bitDatas[(uint)FrameSettingsField.ComputeLightVariants] = value;
+            get => bitDatas[(int)FrameSettingsField.ComputeLightVariants];
+            set => bitDatas[(int)FrameSettingsField.ComputeLightVariants] = value;
         }
         public bool computeMaterialVariants
         {
-            get => bitDatas[(uint)FrameSettingsField.ComputeMaterialVariants];
-            set => bitDatas[(uint)FrameSettingsField.ComputeMaterialVariants] = value;
+            get => bitDatas[(int)FrameSettingsField.ComputeMaterialVariants];
+            set => bitDatas[(int)FrameSettingsField.ComputeMaterialVariants] = value;
         }
         // Deferred opaque always use FPTL, forward opaque can use FPTL or cluster, transparent always use cluster
         // When MSAA is enabled, we only support cluster (Fptl is too slow with MSAA), and we don't support MSAA for deferred path (mean it is ok to keep fptl)
         public bool fptlForForwardOpaque
         {
-            get => bitDatas[(uint)FrameSettingsField.FptlForForwardOpaque];
-            set => bitDatas[(uint)FrameSettingsField.FptlForForwardOpaque] = value;
+            get => bitDatas[(int)FrameSettingsField.FptlForForwardOpaque];
+            set => bitDatas[(int)FrameSettingsField.FptlForForwardOpaque] = value;
         }
         public bool bigTilePrepass
         {
-            get => bitDatas[(uint)FrameSettingsField.BigTilePrepass];
-            set => bitDatas[(uint)FrameSettingsField.BigTilePrepass] = value;
+            get => bitDatas[(int)FrameSettingsField.BigTilePrepass];
+            set => bitDatas[(int)FrameSettingsField.BigTilePrepass] = value;
         }
 
-        public bool fptl => shaderLitMode == LitShaderMode.Deferred || bitDatas[(uint)FrameSettingsField.FptlForForwardOpaque];
-        public float specularGlobalDimmer => bitDatas[(uint)FrameSettingsField.Reflection] ? 1f : 0f;
+        public bool fptl => shaderLitMode == LitShaderMode.Deferred || bitDatas[(int)FrameSettingsField.FptlForForwardOpaque];
+        public float specularGlobalDimmer => bitDatas[(int)FrameSettingsField.Reflection] ? 1f : 0f;
         
-        public bool BuildLightListRunsAsync() => SystemInfo.supportsAsyncCompute && bitDatas[(uint)FrameSettingsField.AsyncCompute] && bitDatas[(uint)FrameSettingsField.LightListAsync];
-        public bool SSRRunsAsync() => SystemInfo.supportsAsyncCompute && bitDatas[(uint)FrameSettingsField.AsyncCompute] && bitDatas[(uint)FrameSettingsField.SSRAsync];
-        public bool SSAORunsAsync() => SystemInfo.supportsAsyncCompute && bitDatas[(uint)FrameSettingsField.AsyncCompute] && bitDatas[(uint)FrameSettingsField.SSAOAsync];
-        public bool ContactShadowsRunAsync() => SystemInfo.supportsAsyncCompute && bitDatas[(uint)FrameSettingsField.AsyncCompute] && bitDatas[(uint)FrameSettingsField.ContactShadowsAsync];
-        public bool VolumeVoxelizationRunsAsync() => SystemInfo.supportsAsyncCompute && bitDatas[(uint)FrameSettingsField.AsyncCompute] && bitDatas[(uint)FrameSettingsField.VolumeVoxelizationsAsync];
+        public bool BuildLightListRunsAsync() => SystemInfo.supportsAsyncCompute && bitDatas[(int)FrameSettingsField.AsyncCompute] && bitDatas[(int)FrameSettingsField.LightListAsync];
+        public bool SSRRunsAsync() => SystemInfo.supportsAsyncCompute && bitDatas[(int)FrameSettingsField.AsyncCompute] && bitDatas[(int)FrameSettingsField.SSRAsync];
+        public bool SSAORunsAsync() => SystemInfo.supportsAsyncCompute && bitDatas[(int)FrameSettingsField.AsyncCompute] && bitDatas[(int)FrameSettingsField.SSAOAsync];
+        public bool ContactShadowsRunAsync() => SystemInfo.supportsAsyncCompute && bitDatas[(int)FrameSettingsField.AsyncCompute] && bitDatas[(int)FrameSettingsField.ContactShadowsAsync];
+        public bool VolumeVoxelizationRunsAsync() => SystemInfo.supportsAsyncCompute && bitDatas[(int)FrameSettingsField.AsyncCompute] && bitDatas[(int)FrameSettingsField.VolumeVoxelizationsAsync];
 
         public static void Override(ref FrameSettings overridedFrameSettings, FrameSettings overridingFrameSettings, FrameSettingsOverrideMask frameSettingsOverideMask)
         {
@@ -466,7 +466,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
             //refresh enums for DebugMenu
             //[TODO: save this value in serialized element of DebugMenu once serialization is fixed]
-            if (frameSettingsOverideMask.mask[(uint)FrameSettingsField.ShaderLitMode])
+            if (frameSettingsOverideMask.mask[(int)FrameSettingsField.ShaderLitMode])
             {
                 // the property update the enum index each time. Force to pass by that part of the code when overriding it
                 overridedFrameSettings.shaderLitMode = overridedFrameSettings.shaderLitMode;
@@ -481,7 +481,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             bool stereo = camera.stereoEnabled;
 
             // When rendering reflection probe we disable specular as it is view dependent
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.Reflection] = !reflection;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.Reflection] = !reflection;
 
             // We have to fall back to forward-only rendering when scene view is using wireframe rendering mode
             // as rendering everything in wireframe + deferred do not play well together
@@ -508,60 +508,60 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 }
             }
 
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.Shadow] &= !preview;
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.ShadowMask] &= renderPipelineSettings.supportShadowMask && !preview;
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.ContactShadow] &= !preview;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.Shadow] &= !preview;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.ShadowMask] &= renderPipelineSettings.supportShadowMask && !preview;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.ContactShadow] &= !preview;
 
             //MSAA only supported in forward
             // TODO: The work will be implemented piecemeal to support all passes
-            bool msaa = sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.MSAA] &= renderPipelineSettings.supportMSAA && sanitazedFrameSettings.shaderLitMode == LitShaderMode.Forward;
+            bool msaa = sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.MSAA] &= renderPipelineSettings.supportMSAA && sanitazedFrameSettings.shaderLitMode == LitShaderMode.Forward;
 
             // VR TODO: The work will be implemented piecemeal to support all passes
             // No recursive reflections
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.SSR] &= !reflection && renderPipelineSettings.supportSSR && !msaa && !preview && stereo;
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.SSAO] &= renderPipelineSettings.supportSSAO && !preview;
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.SubsurfaceScattering] &= !reflection && renderPipelineSettings.supportSubsurfaceScattering;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.SSR] &= !reflection && renderPipelineSettings.supportSSR && !msaa && !preview && stereo;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.SSAO] &= renderPipelineSettings.supportSSAO && !preview;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.SubsurfaceScattering] &= !reflection && renderPipelineSettings.supportSubsurfaceScattering;
 
             // We must take care of the scene view fog flags in the editor
-            bool atmosphericScattering = sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.AtmosphericScaterring] &= !sceneViewFog && !preview;
+            bool atmosphericScattering = sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.AtmosphericScaterring] &= !sceneViewFog && !preview;
 
             // Volumetric are disabled if there is no atmospheric scattering
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.Volumetrics] &= renderPipelineSettings.supportVolumetrics && atmosphericScattering; //&& !preview induced by atmospheric scattering
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.ReprojectionForVolumetrics] &= !preview;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.Volumetrics] &= renderPipelineSettings.supportVolumetrics && atmosphericScattering; //&& !preview induced by atmospheric scattering
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.ReprojectionForVolumetrics] &= !preview;
 
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.LightLayers] &= renderPipelineSettings.supportLightLayers && !preview;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.LightLayers] &= renderPipelineSettings.supportLightLayers && !preview;
 
             // Planar and real time cubemap doesn't need post process and render in FP16
-            bool postprocess = sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.Postprocess] &= !reflection && !preview;
+            bool postprocess = sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.Postprocess] &= !reflection && !preview;
 
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.TransparentPrepass] &= renderPipelineSettings.supportTransparentDepthPrepass && !preview;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.TransparentPrepass] &= renderPipelineSettings.supportTransparentDepthPrepass && !preview;
 
             // VR TODO: The work will be implemented piecemeal to support all passes
             // VR TODO: check why '=' and not '&=' and if we can merge these lines
             bool motionVector;
             if (stereo)
-                motionVector = sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.MotionVectors] = postprocess && !msaa && !preview;
+                motionVector = sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.MotionVectors] = postprocess && !msaa && !preview;
             else
-                motionVector = sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.MotionVectors] &= !reflection && renderPipelineSettings.supportMotionVectors && !preview;
+                motionVector = sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.MotionVectors] &= !reflection && renderPipelineSettings.supportMotionVectors && !preview;
 
             // Object motion vector are disabled if motion vector are disabled
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.ObjectMotionVectors] &= motionVector && !preview;
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.Decals] &= renderPipelineSettings.supportDecals && !preview;
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.TransparentPostpass] &= renderPipelineSettings.supportTransparentDepthPostpass && !preview;
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.Distortion] &= !reflection && renderPipelineSettings.supportDistortion && !msaa && !preview;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.ObjectMotionVectors] &= motionVector && !preview;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.Decals] &= renderPipelineSettings.supportDecals && !preview;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.TransparentPostpass] &= renderPipelineSettings.supportTransparentDepthPostpass && !preview;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.Distortion] &= !reflection && renderPipelineSettings.supportDistortion && !msaa && !preview;
 
-            bool async = sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.AsyncCompute] &= SystemInfo.supportsAsyncCompute;
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.LightListAsync] &= async;
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.SSRAsync] &= async;
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.SSAOAsync] &= async;
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.ContactShadowsAsync] &= async;
-            sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.VolumeVoxelizationsAsync] &= async;
+            bool async = sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.AsyncCompute] &= SystemInfo.supportsAsyncCompute;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.LightListAsync] &= async;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.SSRAsync] &= async;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.SSAOAsync] &= async;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.ContactShadowsAsync] &= async;
+            sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.VolumeVoxelizationsAsync] &= async;
 
             // Deferred opaque are always using Fptl. Forward opaque can use Fptl or Cluster, transparent use cluster.
             // When MSAA is enabled we disable Fptl as it become expensive compare to cluster
             // In HD, MSAA is only supported for forward only rendering, no MSAA in deferred mode (for code complexity reasons)
             // Disable FPTL for stereo for now
-            bool fptlForwardOpaque = sanitazedFrameSettings.bitDatas[(uint)FrameSettingsField.FptlForForwardOpaque] &= !msaa && !XRGraphics.enabled;
+            bool fptlForwardOpaque = sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.FptlForForwardOpaque] &= !msaa && !XRGraphics.enabled;
         }
         
         public static void AggregateFrameSettings(ref FrameSettings aggregatedFrameSettings, Camera camera, HDAdditionalCameraData additionalData, HDRenderPipelineAsset hdrpAsset)
@@ -594,8 +594,8 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         public static void AggregateFrameSettings(ref FrameSettings aggregatedFrameSettings, Camera camera, HDAdditionalCameraData additionalData, HDRenderPipelineAsset hdrpAsset)
         {
             FrameSettingsHistory history = new FrameSettingsHistory();
-            history.defaultType = additionalData.defaultFrameSettings;
-            aggregatedFrameSettings = hdrpAsset.GetDefaultFrameSettings(additionalData.defaultFrameSettings);
+            history.defaultType = additionalData ? additionalData.defaultFrameSettings : FrameSettingsRenderType.Camera;
+            aggregatedFrameSettings = hdrpAsset.GetDefaultFrameSettings(history.defaultType);
             if (additionalData && additionalData.customRenderingSettings)
             {
                 FrameSettings.Override(ref aggregatedFrameSettings, additionalData.renderingPathCustomFrameSettings, additionalData.renderingPathCustomOverrideFrameSettings);

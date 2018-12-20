@@ -9,7 +9,7 @@ namespace UnityEngine.Experimental.Rendering
         uint capacity { get; }
         bool allFalse { get; }
         bool allTrue { get; }
-        bool this[uint index] { get; set; }
+        bool this[int index] { get; set; }
         string humanizedData { get; }
     }
 
@@ -24,7 +24,7 @@ namespace UnityEngine.Experimental.Rendering
         public bool allTrue => data == byte.MaxValue;
         public string humanizedData => String.Format("%" + capacity + "s", Convert.ToString(data, 2).Replace(' ', '0'));
 
-        public bool this[uint index]
+        public bool this[int index]
         {
             get => (data & (1u << (int)index)) != 0u;
             set
@@ -68,7 +68,7 @@ namespace UnityEngine.Experimental.Rendering
         public string humanizedData => System.Text.RegularExpressions.Regex.Replace(String.Format("%" + capacity + "s", Convert.ToString(data, 2).Replace(' ', '0')), ".{8}", "$0.");
 
 
-        public bool this[uint index]
+        public bool this[int index]
         {
             get => (data & (1u << (int)index)) != 0u;
             set
@@ -112,7 +112,7 @@ namespace UnityEngine.Experimental.Rendering
         string humanizedVersion => Convert.ToString(data, 2);
         public string humanizedData => System.Text.RegularExpressions.Regex.Replace(String.Format("%" + capacity + "s", Convert.ToString(data, 2).Replace(' ', '0')), ".{8}", "$0.");
 
-        public bool this[uint index]
+        public bool this[int index]
         {
             get => (data & (1u << (int)index)) != 0u;
             set
@@ -155,7 +155,7 @@ namespace UnityEngine.Experimental.Rendering
         public bool allTrue => data == ulong.MaxValue;
         public string humanizedData => System.Text.RegularExpressions.Regex.Replace(String.Format("%" + capacity + "s", Convert.ToString((long)data, 2).Replace(' ', '0')), ".{8}", "$0.");
 
-        public bool this[uint index]
+        public bool this[int index]
         {
             get => (data & (1uL << (int)index)) != 0uL;
             set
@@ -201,15 +201,15 @@ namespace UnityEngine.Experimental.Rendering
         public bool allTrue => data1.allTrue && data2.allTrue;
         public string humanizedData => data1.humanizedData + "." + data2.humanizedData;
 
-        public bool this[uint index]
+        public bool this[int index]
         {
-            get => (index < 64u) ? data1[index] : data2[index - 64u];
+            get => (index < 64u) ? data1[index] : data2[index - 64];
             set
             {
                 if (index < 64u)
                     data1[index] = value;
                 else
-                    data2[index - 64u] = value;
+                    data2[index - 64] = value;
             }
         }
 

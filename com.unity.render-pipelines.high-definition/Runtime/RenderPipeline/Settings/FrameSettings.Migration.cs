@@ -207,94 +207,94 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                     switch(val)
                     {
                         case ObsoleteFrameSettingsOverrides.Shadow:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.Shadow] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.Shadow] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.ContactShadow:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.ContactShadow] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.ContactShadow] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.ShadowMask:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.ShadowMask] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.ShadowMask] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.SSR:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.SSR] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.SSR] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.SSAO:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.SSAO] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.SSAO] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.SubsurfaceScattering:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.SubsurfaceScattering] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.SubsurfaceScattering] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.Transmission:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.Transmission] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.Transmission] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.AtmosphericScaterring:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.AtmosphericScaterring] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.AtmosphericScaterring] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.Volumetrics:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.Volumetrics] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.Volumetrics] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.ReprojectionForVolumetrics:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.ReprojectionForVolumetrics] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.ReprojectionForVolumetrics] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.LightLayers:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.LightLayers] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.LightLayers] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.DepthPrepassWithDeferredRendering:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.DepthPrepassWithDeferredRendering] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.DepthPrepassWithDeferredRendering] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.TransparentPrepass:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.TransparentPrepass] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.TransparentPrepass] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.MotionVectors:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.MotionVectors] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.MotionVectors] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.ObjectMotionVectors:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.ObjectMotionVectors] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.ObjectMotionVectors] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.Decals:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.Decals] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.Decals] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.RoughRefraction:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.RoughRefraction] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.RoughRefraction] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.TransparentPostpass:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.TransparentPostpass] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.TransparentPostpass] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.Distortion:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.Distortion] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.Distortion] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.Postprocess:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.Postprocess] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.Postprocess] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.OpaqueObjects:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.OpaqueObjects] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.OpaqueObjects] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.TransparentObjects:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.TransparentObjects] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.TransparentObjects] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.RealtimePlanarReflection:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.RealtimePlanarReflection] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.RealtimePlanarReflection] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.MSAA:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.MSAA] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.MSAA] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.AsyncCompute:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.AsyncCompute] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.AsyncCompute] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.LightListAsync:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.LightListAsync] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.LightListAsync] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.SSRAsync:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.SSRAsync] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.SSRAsync] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.SSAOAsync:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.SSAOAsync] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.SSAOAsync] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.ContactShadowsAsync:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.ContactShadowsAsync] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.ContactShadowsAsync] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.VolumeVoxelizationsAsync:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.VolumeVoxelizationsAsync] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.VolumeVoxelizationsAsync] = true;
                             break;
                         default:
                             throw new ArgumentException("Unknown ObsoleteFrameSettingsOverride");
@@ -309,22 +309,22 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                     switch (val)
                     {
                         case ObsoleteLightLoopSettingsOverrides.TileAndCluster:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.TileAndCluster] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.TileAndCluster] = true;
                             break;
                         case ObsoleteLightLoopSettingsOverrides.BigTilePrepass:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.BigTilePrepass] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.BigTilePrepass] = true;
                             break;
                         case ObsoleteLightLoopSettingsOverrides.ComputeLightEvaluation:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.ComputeLightEvaluation] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.ComputeLightEvaluation] = true;
                             break;
                         case ObsoleteLightLoopSettingsOverrides.ComputeLightVariants:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.ComputeLightVariants] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.ComputeLightVariants] = true;
                             break;
                         case ObsoleteLightLoopSettingsOverrides.ComputeMaterialVariants:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.ComputeMaterialVariants] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.ComputeMaterialVariants] = true;
                             break;
                         case ObsoleteLightLoopSettingsOverrides.FptlForForwardOpaque:
-                            newFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.FptlForForwardOpaque] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.FptlForForwardOpaque] = true;
                             break;
                         default:
                             throw new ArgumentException("Unknown ObsoleteLightLoopSettingsOverrides");

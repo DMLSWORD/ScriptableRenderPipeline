@@ -329,9 +329,11 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             m_DebugDisplaySettings.RegisterDebug();
 #if UNITY_EDITOR
             // We don't need the debug of Scene View at runtime (each camera have its own debug settings)
-            Camera sceneCamera = Camera.allCameras.First(c => c.cameraType == CameraType.SceneView);
-            var history = FrameSettingsHistory.RegisterDebug(sceneCamera, sceneCamera.GetComponent<HDAdditionalCameraData>());
-            DebugManager.instance.RegisterData(history);
+            foreach (UnityEditor.SceneView sv in UnityEditor.SceneView.sceneViews)
+            {
+                var history = FrameSettingsHistory.RegisterDebug(sv.camera, null);
+                DebugManager.instance.RegisterData(history);
+            }
 #endif
 
             m_DepthPyramidMipLevelOffsetsBuffer = new ComputeBuffer(15, sizeof(int) * 2);
@@ -658,7 +660,11 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
 #if UNITY_EDITOR
             SceneViewDrawMode.ResetDrawMode();
-            FrameSettingsHistory.UnRegisterDebug(Camera.allCameras.First(c => c.cameraType == CameraType.SceneView));
+            foreach (UnityEditor.SceneView sv in UnityEditor.SceneView.sceneViews)
+            {
+                DebugManager.instance.UnregisterData(FrameSettingsHistory.GetPersistantDebugData(sv.camera));
+                FrameSettingsHistory.UnRegisterDebug(sv.camera);
+            }
 #endif
         }
 
