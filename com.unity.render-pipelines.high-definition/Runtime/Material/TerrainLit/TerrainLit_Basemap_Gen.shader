@@ -19,10 +19,10 @@ Shader "Hidden/HDRP/TerrainLit_Basemap_Gen"
         #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
         #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
 
-        #pragma shader_feature _TERRAIN_8_LAYERS
-        #pragma shader_feature _TERRAIN_BLEND_HEIGHT
-        #pragma shader_feature _NORMALMAP
-        #pragma shader_feature _MASKMAP
+        #pragma shader_feature_local _TERRAIN_8_LAYERS
+        #pragma shader_feature_local _TERRAIN_BLEND_HEIGHT
+        #pragma shader_feature_local _NORMALMAP
+        #pragma shader_feature_local _MASKMAP
 
         #ifdef _MASKMAP
             // Needed because unity tries to match the name of the used textures to samplers. Masks can be used without splats in Metallic pass.
