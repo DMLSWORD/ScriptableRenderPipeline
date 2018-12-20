@@ -294,10 +294,10 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 }
 
                 // Update state hash
-                var allBakedhash = new Hash128();
+                var allBakedhash = new Hash128[m_HDProbeBakedStates.Length];
                 for (int i = 0; i < m_HDProbeBakedStates.Length; ++i)
-                    HashUtilities.AppendHash(ref m_HDProbeBakedStates[i].probeBakedHash, ref allBakedhash);
-                stateHash = allBakedhash;
+                    HashUtilities.AppendHash(ref m_HDProbeBakedStates[i].probeBakedHash, ref allBakedhash[i]);
+                stateHashes = allBakedhash;
             }
 
             handle.ExitStage((int)BakingStages.ReflectionProbes);
