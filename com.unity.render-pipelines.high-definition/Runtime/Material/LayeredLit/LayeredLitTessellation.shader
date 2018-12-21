@@ -384,6 +384,7 @@ Shader "HDRP/LayeredLitTessellation"
     #pragma shader_feature_local _NORMALMAP_TANGENT_SPACE3
     #pragma shader_feature_local _ _REQUIRE_UV2 _REQUIRE_UV3
 
+    // We can only have 64 shader_feature_local
     #pragma shader_feature _NORMALMAP0              // Non-local
     #pragma shader_feature _NORMALMAP1              // Non-local
     #pragma shader_feature _NORMALMAP2              // Non-local
@@ -427,7 +428,7 @@ Shader "HDRP/LayeredLitTessellation"
     #pragma shader_feature_local _ENABLE_GEOMETRIC_SPECULAR_AA
 
     // Keyword for transparent
-    #pragma shader_feature_local _SURFACE_TYPE_TRANSPARENT
+    #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
     #pragma shader_feature_local _ _BLENDMODE_ALPHA _BLENDMODE_ADD _BLENDMODE_PRE_MULTIPLY
     #pragma shader_feature_local _BLENDMODE_PRESERVE_SPECULAR_LIGHTING
     #pragma shader_feature_local _ENABLE_FOG_ON_TRANSPARENT
