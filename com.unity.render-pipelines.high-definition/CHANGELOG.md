@@ -59,6 +59,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed material debug view with stereo rendering
 - Fixed material's RenderQueue edition in default view.
 - Fixed banding issues within volumetric density buffer
+- Fixed max number of keyword reach [256] issue. Several shader feature are now local
 
 ### Changed
 - ColorPyramid compute shader passes is swapped to pixel shader passes on platforms where the later is faster (Nintendo Switch).
