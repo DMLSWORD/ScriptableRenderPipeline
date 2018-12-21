@@ -151,10 +151,10 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             switch (oldFrameSettingsFormat.shaderLitMode)
             {
                 case ObsoleteLitShaderMode.Forward:
-                    newFrameSettingsFormat.shaderLitMode = LitShaderMode.Forward;
+                    newFrameSettingsFormat.litShaderMode = LitShaderMode.Forward;
                     break;
                 case ObsoleteLitShaderMode.Deferred:
-                    newFrameSettingsFormat.shaderLitMode = LitShaderMode.Deferred;
+                    newFrameSettingsFormat.litShaderMode = LitShaderMode.Deferred;
                     break;
                 default:
                     throw new ArgumentException("Unknown ObsoleteLitShaderMode");
@@ -198,7 +198,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             newFrameSettingsFormat.bigTilePrepass = oldFrameSettingsFormat.lightLoopSettings.enableBigTilePrepass;
 
             // OverrideMask
-            newFrameSettingsOverrideMask.mask = new CheapBitArray128();
+            newFrameSettingsOverrideMask.mask = new BitArray128();
             Array values = Enum.GetValues(typeof(ObsoleteFrameSettingsOverrides));
             foreach (ObsoleteFrameSettingsOverrides val in values)
             {

@@ -97,7 +97,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
         {
             RenderPipelineSettings hdrpSettings = GetHDRPAssetFor(owner).renderPipelineSettings;
             FrameSettings defaultFrameSettings = GetDefaultFrameSettingsFor(owner);
-            OverridableSettingsArea area = new OverridableSettingsArea(6);
+            OverridableSettingsArea area = new OverridableSettingsArea(6, defaultFrameSettings);
             LitShaderMode defaultShaderLitMode;
             switch (hdrpSettings.supportedLitShaderMode)
             {
@@ -108,7 +108,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
                     defaultShaderLitMode = LitShaderMode.Deferred;
                     break;
                 case RenderPipelineSettings.SupportedLitShaderMode.Both:
-                    defaultShaderLitMode = defaultFrameSettings.shaderLitMode;
+                    defaultShaderLitMode = defaultFrameSettings.litShaderMode;
                     break;
                 default:
                     throw new System.ArgumentOutOfRangeException("Unknown ShaderLitMode");
@@ -123,9 +123,9 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             area.Add(serialized.msaa, msaaContent, () => serialized.overridesMSAA, a => serialized.overridesMSAA = a,
                 () => !GL.wireframe
                 && assetAllowMSAA && frameSettingsAllowMSAA,
-                defaultValue: defaultFrameSettings.msaa && hdrpSettings.supportMSAA && !GL.wireframe && (hdrpSettings.supportedLitShaderMode & RenderPipelineSettings.SupportedLitShaderMode.ForwardOnly) != 0 && (serialized.overridesShaderLitMode && serialized.litShaderMode.enumValueIndex == (int)LitShaderMode.Forward || !serialized.overridesShaderLitMode && defaultFrameSettings.shaderLitMode == (int)LitShaderMode.Forward));
+                defaultValue: defaultFrameSettings.msaa && hdrpSettings.supportMSAA && !GL.wireframe && (hdrpSettings.supportedLitShaderMode & RenderPipelineSettings.SupportedLitShaderMode.ForwardOnly) != 0 && (serialized.overridesShaderLitMode && serialized.litShaderMode.enumValueIndex == (int)LitShaderMode.Forward || !serialized.overridesShaderLitMode && defaultFrameSettings.litShaderMode == (int)LitShaderMode.Forward));
             area.Add(serialized.depthPrepassWithDeferredRendering, depthPrepassWithDeferredRenderingContent, () => serialized.overridesDepthPrepassWithDeferredRendering, a => serialized.overridesDepthPrepassWithDeferredRendering = a,
-                () => (defaultFrameSettings.shaderLitMode == LitShaderMode.Deferred && !serialized.overridesShaderLitMode || serialized.overridesShaderLitMode && serialized.litShaderMode.enumValueIndex == (int)LitShaderMode.Deferred) && (hdrpSettings.supportedLitShaderMode & RenderPipelineSettings.SupportedLitShaderMode.DeferredOnly) != 0,
+                () => (defaultFrameSettings.litShaderMode == LitShaderMode.Deferred && !serialized.overridesShaderLitMode || serialized.overridesShaderLitMode && serialized.litShaderMode.enumValueIndex == (int)LitShaderMode.Deferred) && (hdrpSettings.supportedLitShaderMode & RenderPipelineSettings.SupportedLitShaderMode.DeferredOnly) != 0,
                 defaultValue: defaultFrameSettings.depthPrepassWithDeferredRendering && (hdrpSettings.supportedLitShaderMode & RenderPipelineSettings.SupportedLitShaderMode.DeferredOnly) != 0 && serialized.litShaderMode.enumValueIndex == (int)LitShaderMode.Deferred);
             area.Add(serialized.opaqueObjects, opaqueObjectsContent, () => serialized.overridesOpaqueObjects, a => serialized.overridesOpaqueObjects = a, defaultValue: defaultFrameSettings.opaqueObjects);
             area.Add(serialized.transparentObjects, transparentObjectsContent, () => serialized.overridesTransparentObjects, a => serialized.overridesTransparentObjects = a, defaultValue: defaultFrameSettings.transparentObjects);

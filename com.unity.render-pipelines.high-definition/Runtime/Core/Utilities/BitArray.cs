@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace UnityEngine.Experimental.Rendering
 {
-    public interface ICheapBitArray
+    public interface IBitArray
     {
         uint capacity { get; }
         bool allFalse { get; }
@@ -13,8 +13,12 @@ namespace UnityEngine.Experimental.Rendering
         string humanizedData { get; }
     }
 
+    // /!\ Important for serialization:
+    // Serialization helper will rely on the name of the struct type.
+    // In order to work, it must be BitArrayN where N is the capacity without suffix.
+
     [Serializable]
-    public struct CheapBitArray8 : ICheapBitArray
+    public struct BitArray8 : IBitArray
     {
         [SerializeField]
         byte data;
@@ -30,8 +34,8 @@ namespace UnityEngine.Experimental.Rendering
             set => CheapBitArrayUtilities.Set8(index, ref data, value);
         }
 
-        public CheapBitArray8(byte initValue) => data = initValue;
-        public CheapBitArray8(IEnumerable<uint> bitIndexTrue)
+        public BitArray8(byte initValue) => data = initValue;
+        public BitArray8(IEnumerable<uint> bitIndexTrue)
         {
             data = (byte)0u;
             if (bitIndexTrue == null)
@@ -40,18 +44,18 @@ namespace UnityEngine.Experimental.Rendering
                 data += (byte)(1u << (int)bitIndexTrue.ElementAt(index));
         }
 
-        public static CheapBitArray8 operator ~(CheapBitArray8 a) => new CheapBitArray8((byte)~a.data);
-        public static CheapBitArray8 operator |(CheapBitArray8 a, CheapBitArray8 b) => new CheapBitArray8((byte)(a.data | b.data));
-        public static CheapBitArray8 operator &(CheapBitArray8 a, CheapBitArray8 b) => new CheapBitArray8((byte)(a.data & b.data));
+        public static BitArray8 operator ~(BitArray8 a) => new BitArray8((byte)~a.data);
+        public static BitArray8 operator |(BitArray8 a, BitArray8 b) => new BitArray8((byte)(a.data | b.data));
+        public static BitArray8 operator &(BitArray8 a, BitArray8 b) => new BitArray8((byte)(a.data & b.data));
 
-        public static bool operator ==(CheapBitArray8 a, CheapBitArray8 b) => a.data == b.data;
-        public static bool operator !=(CheapBitArray8 a, CheapBitArray8 b) => a.data != b.data;
-        public override bool Equals(object obj) => obj is CheapBitArray8 && ((CheapBitArray8)obj).data == data;
+        public static bool operator ==(BitArray8 a, BitArray8 b) => a.data == b.data;
+        public static bool operator !=(BitArray8 a, BitArray8 b) => a.data != b.data;
+        public override bool Equals(object obj) => obj is BitArray8 && ((BitArray8)obj).data == data;
         public override int GetHashCode() => 1768953197 + data.GetHashCode();
     }
 
     [Serializable]
-    public struct CheapBitArray16 : ICheapBitArray
+    public struct BitArray16 : IBitArray
     {
         [SerializeField]
         ushort data;
@@ -68,8 +72,8 @@ namespace UnityEngine.Experimental.Rendering
             set => CheapBitArrayUtilities.Set16(index, ref data, value);
         }
 
-        public CheapBitArray16(ushort initValue) => data = initValue;
-        public CheapBitArray16(IEnumerable<uint> bitIndexTrue)
+        public BitArray16(ushort initValue) => data = initValue;
+        public BitArray16(IEnumerable<uint> bitIndexTrue)
         {
             data = (ushort)0u;
             if (bitIndexTrue == null)
@@ -78,18 +82,18 @@ namespace UnityEngine.Experimental.Rendering
                 data += (ushort)(1u << (int)bitIndexTrue.ElementAt(index));
         }
 
-        public static CheapBitArray16 operator ~(CheapBitArray16 a) => new CheapBitArray16((ushort)~a.data);
-        public static CheapBitArray16 operator |(CheapBitArray16 a, CheapBitArray16 b) => new CheapBitArray16((ushort)(a.data | b.data));
-        public static CheapBitArray16 operator &(CheapBitArray16 a, CheapBitArray16 b) => new CheapBitArray16((ushort)(a.data & b.data));
+        public static BitArray16 operator ~(BitArray16 a) => new BitArray16((ushort)~a.data);
+        public static BitArray16 operator |(BitArray16 a, BitArray16 b) => new BitArray16((ushort)(a.data | b.data));
+        public static BitArray16 operator &(BitArray16 a, BitArray16 b) => new BitArray16((ushort)(a.data & b.data));
 
-        public static bool operator ==(CheapBitArray16 a, CheapBitArray16 b) => a.data == b.data;
-        public static bool operator !=(CheapBitArray16 a, CheapBitArray16 b) => a.data != b.data;
-        public override bool Equals(object obj) => obj is CheapBitArray16 && ((CheapBitArray16)obj).data == data;
+        public static bool operator ==(BitArray16 a, BitArray16 b) => a.data == b.data;
+        public static bool operator !=(BitArray16 a, BitArray16 b) => a.data != b.data;
+        public override bool Equals(object obj) => obj is BitArray16 && ((BitArray16)obj).data == data;
         public override int GetHashCode() => 1768953197 + data.GetHashCode();
     }
 
     [Serializable]
-    public struct CheapBitArray32 : ICheapBitArray
+    public struct BitArray32 : IBitArray
     {
         [SerializeField]
         uint data;
@@ -106,8 +110,8 @@ namespace UnityEngine.Experimental.Rendering
             set => CheapBitArrayUtilities.Set32(index, ref data, value);
         }
 
-        public CheapBitArray32(uint initValue) => data = initValue;
-        public CheapBitArray32(IEnumerable<uint> bitIndexTrue)
+        public BitArray32(uint initValue) => data = initValue;
+        public BitArray32(IEnumerable<uint> bitIndexTrue)
         {
             data = 0u;
             if (bitIndexTrue == null)
@@ -116,18 +120,18 @@ namespace UnityEngine.Experimental.Rendering
                 data += 1u << (int)bitIndexTrue.ElementAt(index);
         }
 
-        public static CheapBitArray32 operator ~(CheapBitArray32 a) => new CheapBitArray32(~a.data);
-        public static CheapBitArray32 operator |(CheapBitArray32 a, CheapBitArray32 b) => new CheapBitArray32(a.data | b.data);
-        public static CheapBitArray32 operator &(CheapBitArray32 a, CheapBitArray32 b) => new CheapBitArray32(a.data & b.data);
+        public static BitArray32 operator ~(BitArray32 a) => new BitArray32(~a.data);
+        public static BitArray32 operator |(BitArray32 a, BitArray32 b) => new BitArray32(a.data | b.data);
+        public static BitArray32 operator &(BitArray32 a, BitArray32 b) => new BitArray32(a.data & b.data);
 
-        public static bool operator ==(CheapBitArray32 a, CheapBitArray32 b) => a.data == b.data;
-        public static bool operator !=(CheapBitArray32 a, CheapBitArray32 b) => a.data != b.data;
-        public override bool Equals(object obj) => obj is CheapBitArray32 && ((CheapBitArray32)obj).data == data;
+        public static bool operator ==(BitArray32 a, BitArray32 b) => a.data == b.data;
+        public static bool operator !=(BitArray32 a, BitArray32 b) => a.data != b.data;
+        public override bool Equals(object obj) => obj is BitArray32 && ((BitArray32)obj).data == data;
         public override int GetHashCode() => 1768953197 + data.GetHashCode();
     }
 
     [Serializable]
-    public struct CheapBitArray64 : ICheapBitArray
+    public struct BitArray64 : IBitArray
     {
         [SerializeField]
         ulong data;
@@ -143,8 +147,8 @@ namespace UnityEngine.Experimental.Rendering
             set => CheapBitArrayUtilities.Set64(index, ref data, value);
         }
 
-        public CheapBitArray64(ulong initValue) => data = initValue;
-        public CheapBitArray64(IEnumerable<uint> bitIndexTrue)
+        public BitArray64(ulong initValue) => data = initValue;
+        public BitArray64(IEnumerable<uint> bitIndexTrue)
         {
             data = 0L;
             if (bitIndexTrue == null)
@@ -154,18 +158,18 @@ namespace UnityEngine.Experimental.Rendering
         }
 
 
-        public static CheapBitArray64 operator ~(CheapBitArray64 a) => new CheapBitArray64(~a.data);
-        public static CheapBitArray64 operator |(CheapBitArray64 a, CheapBitArray64 b) => new CheapBitArray64(a.data | b.data);
-        public static CheapBitArray64 operator &(CheapBitArray64 a, CheapBitArray64 b) => new CheapBitArray64(a.data & b.data);
+        public static BitArray64 operator ~(BitArray64 a) => new BitArray64(~a.data);
+        public static BitArray64 operator |(BitArray64 a, BitArray64 b) => new BitArray64(a.data | b.data);
+        public static BitArray64 operator &(BitArray64 a, BitArray64 b) => new BitArray64(a.data & b.data);
 
-        public static bool operator ==(CheapBitArray64 a, CheapBitArray64 b) => a.data == b.data;
-        public static bool operator !=(CheapBitArray64 a, CheapBitArray64 b) => a.data != b.data;
-        public override bool Equals(object obj) => obj is CheapBitArray64 && ((CheapBitArray64)obj).data == data;
+        public static bool operator ==(BitArray64 a, BitArray64 b) => a.data == b.data;
+        public static bool operator !=(BitArray64 a, BitArray64 b) => a.data != b.data;
+        public override bool Equals(object obj) => obj is BitArray64 && ((BitArray64)obj).data == data;
         public override int GetHashCode() => 1768953197 + data.GetHashCode();
     }
 
     [Serializable]
-    public struct CheapBitArray128 : ICheapBitArray
+    public struct BitArray128 : IBitArray
     {
         [SerializeField]
         ulong data1;
@@ -177,8 +181,8 @@ namespace UnityEngine.Experimental.Rendering
         public bool allTrue => data1 == ulong.MaxValue && data2 == ulong.MaxValue;
         public string humanizedData =>
             System.Text.RegularExpressions.Regex.Replace(String.Format("{0, " + capacity + "}", Convert.ToString((long)data1, 2).Replace(' ', '0')), ".{8}", "$0.")
-            + "." +
-            System.Text.RegularExpressions.Regex.Replace(String.Format("{0, " + capacity + "}", Convert.ToString((long)data2, 2).Replace(' ', '0')), ".{8}", "$0.");
+            + "."
+            + System.Text.RegularExpressions.Regex.Replace(String.Format("{0, " + capacity + "}", Convert.ToString((long)data2, 2).Replace(' ', '0')), ".{8}", "$0.");
 
         public bool this[uint index]
         {
@@ -186,30 +190,30 @@ namespace UnityEngine.Experimental.Rendering
             set => CheapBitArrayUtilities.Set128(index, ref data1, ref data2, value);
         }
 
-        public CheapBitArray128(ulong initValue1, ulong initValue2)
+        public BitArray128(ulong initValue1, ulong initValue2)
         {
             data1 = initValue1;
             data2 = initValue2;
         }
-        public CheapBitArray128(IEnumerable<uint> bitIndexTrue)
+        public BitArray128(IEnumerable<uint> bitIndexTrue)
         {
             data1 = data2 = 0uL;
             if (bitIndexTrue == null)
                 return;
-            var groups = bitIndexTrue.GroupBy(idx => idx < 128u);
+            var groups = bitIndexTrue.GroupBy(idx => idx < 64u);
             for (int index = groups.First().Count() - 1; index >= 0; --index)
                 data1 += 1uL << (int)bitIndexTrue.ElementAt(index);
             for (int index = groups.Last().Count() - 1; index >= 0; --index)
-                data2 += 1uL << (int)bitIndexTrue.ElementAt(index);
+                data2 += 1uL << (int)(bitIndexTrue.ElementAt(index) - 64u);
         }
 
-        public static CheapBitArray128 operator ~(CheapBitArray128 a) => new CheapBitArray128(~a.data1, a.data2);
-        public static CheapBitArray128 operator |(CheapBitArray128 a, CheapBitArray128 b) => new CheapBitArray128(a.data1 | b.data1, a.data2 | b.data2);
-        public static CheapBitArray128 operator &(CheapBitArray128 a, CheapBitArray128 b) => new CheapBitArray128(a.data1 & b.data1, a.data2 & b.data2);
+        public static BitArray128 operator ~(BitArray128 a) => new BitArray128(~a.data1, ~a.data2);
+        public static BitArray128 operator |(BitArray128 a, BitArray128 b) => new BitArray128(a.data1 | b.data1, a.data2 | b.data2);
+        public static BitArray128 operator &(BitArray128 a, BitArray128 b) => new BitArray128(a.data1 & b.data1, a.data2 & b.data2);
 
-        public static bool operator ==(CheapBitArray128 a, CheapBitArray128 b) => a.data1 == b.data1 && a.data2 == b.data2;
-        public static bool operator !=(CheapBitArray128 a, CheapBitArray128 b) => a.data1 != b.data1 && a.data2 != b.data2;
-        public override bool Equals(object obj) => (obj is CheapBitArray128) && data1.Equals(((CheapBitArray128)obj).data1) && data2.Equals(((CheapBitArray128)obj).data2);
+        public static bool operator ==(BitArray128 a, BitArray128 b) => a.data1 == b.data1 && a.data2 == b.data2;
+        public static bool operator !=(BitArray128 a, BitArray128 b) => a.data1 != b.data1 || a.data2 != b.data2;
+        public override bool Equals(object obj) => (obj is BitArray128) && data1.Equals(((BitArray128)obj).data1) && data2.Equals(((BitArray128)obj).data2);
         public override int GetHashCode()
         {
             var hashCode = 1755735569;
@@ -219,6 +223,84 @@ namespace UnityEngine.Experimental.Rendering
         }
     }
 
+    [Serializable]
+    public struct BitArray256 : IBitArray
+    {
+        [SerializeField]
+        ulong data1;
+        [SerializeField]
+        ulong data2;
+        [SerializeField]
+        ulong data3;
+        [SerializeField]
+        ulong data4;
+
+        public uint capacity => 256u;
+        public bool allFalse => data1 == 0uL && data2 == 0uL && data3 == 0uL && data4 == 0uL;
+        public bool allTrue => data1 == ulong.MaxValue && data2 == ulong.MaxValue && data3 == ulong.MaxValue && data4 == ulong.MaxValue;
+        public string humanizedData =>
+            System.Text.RegularExpressions.Regex.Replace(String.Format("{0, " + capacity + "}", Convert.ToString((long)data1, 2).Replace(' ', '0')), ".{8}", "$0.")
+            + "."
+            + System.Text.RegularExpressions.Regex.Replace(String.Format("{0, " + capacity + "}", Convert.ToString((long)data2, 2).Replace(' ', '0')), ".{8}", "$0.")
+            + "."
+            + System.Text.RegularExpressions.Regex.Replace(String.Format("{0, " + capacity + "}", Convert.ToString((long) data3, 2).Replace(' ', '0')), ".{8}", "$0.")
+            + "."
+            + System.Text.RegularExpressions.Regex.Replace(String.Format("{0, " + capacity + "}", Convert.ToString((long) data4, 2).Replace(' ', '0')), ".{8}", "$0.");
+
+        public bool this[uint index]
+        {
+            get => CheapBitArrayUtilities.Get256(index, data1, data2, data3, data4);
+            set => CheapBitArrayUtilities.Set256(index, ref data1, ref data2, ref data3, ref data4, value);
+        }
+
+        public BitArray256(ulong initValue1, ulong initValue2, ulong initValue3, ulong initValue4)
+        {
+            data1 = initValue1;
+            data2 = initValue2;
+            data3 = initValue3;
+            data4 = initValue4;
+        }
+        public BitArray256(IEnumerable<uint> bitIndexTrue)
+        {
+            data1 = data2 = data3 = data4 = 0uL;
+            if (bitIndexTrue == null)
+                return;
+            for (int index = bitIndexTrue.Count() - 1; index >= 0; --index)
+            {
+                uint bitIndex = bitIndexTrue.ElementAt(index);
+                if (bitIndex < 64u)
+                    data1 += 1uL << (int)bitIndexTrue.ElementAt(index);
+                else if (bitIndex < 128u)
+                    data2 += 1uL << (int)(bitIndexTrue.ElementAt(index) - 64u);
+                else if (bitIndex < 192u)
+                    data3 += 1uL << (int)(bitIndexTrue.ElementAt(index) - 128u);
+                else 
+                    data4 += 1uL << (int)(bitIndexTrue.ElementAt(index) - 192u);
+            }
+        }
+
+        public static BitArray256 operator ~(BitArray256 a) => new BitArray256(~a.data1, ~a.data2, ~a.data3, ~a.data4);
+        public static BitArray256 operator |(BitArray256 a, BitArray256 b) => new BitArray256(a.data1 | b.data1, a.data2 | b.data2, a.data3 | b.data3, a.data4 | b.data4);
+        public static BitArray256 operator &(BitArray256 a, BitArray256 b) => new BitArray256(a.data1 & b.data1, a.data2 & b.data2, a.data3 & b.data3, a.data4 & b.data4);
+
+        public static bool operator ==(BitArray256 a, BitArray256 b) => a.data1 == b.data1 && a.data2 == b.data2 && a.data3 == b.data3 && a.data4 == b.data4;
+        public static bool operator !=(BitArray256 a, BitArray256 b) => a.data1 != b.data1 || a.data2 != b.data2 || a.data3 != b.data3 || a.data4 != b.data4;
+        public override bool Equals(object obj) =>
+            (obj is BitArray256)
+            && data1.Equals(((BitArray256)obj).data1)
+            && data2.Equals(((BitArray256)obj).data2)
+            && data3.Equals(((BitArray256)obj).data3)
+            && data4.Equals(((BitArray256)obj).data4);
+        public override int GetHashCode()
+        {
+            var hashCode = 1870826326;
+            hashCode = hashCode * -1521134295 + data1.GetHashCode();
+            hashCode = hashCode * -1521134295 + data2.GetHashCode();
+            hashCode = hashCode * -1521134295 + data3.GetHashCode();
+            hashCode = hashCode * -1521134295 + data4.GetHashCode();
+            return hashCode;
+        }
+    }
 
 
 
@@ -229,7 +311,18 @@ namespace UnityEngine.Experimental.Rendering
         public static bool Get16(uint index, ushort data) => (data & (1u << (int)index)) != 0u;
         public static bool Get32(uint index, uint data) => (data & (1u << (int)index)) != 0u;
         public static bool Get64(uint index, ulong data) => (data & (1uL << (int)index)) != 0uL;
-        public static bool Get128(uint index, ulong data1, ulong data2) => index < 64u ? (data1 & (1uL << (int)index)) != 0uL : (data2 & (1uL << (int)index)) != 0uL;
+        public static bool Get128(uint index, ulong data1, ulong data2)
+            => index < 64u
+            ? (data1 & (1uL << (int)index)) != 0uL
+            : (data2 & (1uL << (int)(index - 64u))) != 0uL;
+        public static bool Get256(uint index, ulong data1, ulong data2, ulong data3, ulong data4)
+            => index < 128u
+            ? index < 64u
+                ? (data1 & (1uL << (int)index)) != 0uL
+                : (data2 & (1uL << (int)(index - 64u))) != 0uL
+            : index < 192u
+                ? (data3 & (1uL << (int)(index - 128u))) != 0uL
+                : (data4 & (1uL << (int)(index - 192u))) != 0uL;
         public static void Set8(uint index, ref byte data, bool value) => data = (byte)(value ? (data | (1u << (int)index)) : (data & ~(1u << (int)index)));
         public static void Set16(uint index, ref ushort data, bool value) => data = (ushort)(value ? (data | (1u << (int)index)) : (data & ~(1u << (int)index)));
         public static void Set32(uint index, ref uint data, bool value) => data = (value ? (data | (1u << (int)index)) : (data & ~(1u << (int)index)));
@@ -240,6 +333,17 @@ namespace UnityEngine.Experimental.Rendering
                 data1 = (value ? (data1 | (1uL << (int)index)) : (data1 & ~(1uL << (int)index)));
             else
                 data2 = (value ? (data2 | (1uL << (int)(index - 64u))) : (data2 & ~(1uL << (int)(index - 64u))));
+        }
+        public static void Set256(uint index, ref ulong data1, ref ulong data2, ref ulong data3, ref ulong data4, bool value)
+        {
+            if (index < 64u)
+                data1 = (value ? (data1 | (1uL << (int)index)) : (data1 & ~(1uL << (int)index)));
+            else if (index < 128u)
+                data2 = (value ? (data2 | (1uL << (int)(index - 64u))) : (data2 & ~(1uL << (int)(index - 64u))));
+            else if (index < 192u)
+                data3 = (value ? (data3 | (1uL << (int)(index - 64u))) : (data3 & ~(1uL << (int)(index - 128u))));
+            else
+                data4 = (value ? (data4 | (1uL << (int)(index - 64u))) : (data4 & ~(1uL << (int)(index - 192u))));
         }
     }
 }

@@ -789,7 +789,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             }
 
             // Raise the normal buffer flag only if we are in forward rendering
-            CoreUtils.SetKeyword(cmd, "WRITE_NORMAL_BUFFER", hdCamera.frameSettings.shaderLitMode == LitShaderMode.Forward);
+            CoreUtils.SetKeyword(cmd, "WRITE_NORMAL_BUFFER", hdCamera.frameSettings.litShaderMode == LitShaderMode.Forward);
 
             // Raise or remove the depth msaa flag based on the frame setting
             CoreUtils.SetKeyword(cmd, "WRITE_MSAA_DEPTH", hdCamera.frameSettings.msaa);
@@ -1108,7 +1108,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                         {
                             int stencilMask;
                             int stencilRef;
-                            switch (hdCamera.frameSettings.shaderLitMode)
+                            switch (hdCamera.frameSettings.litShaderMode)
                             {
                                 case LitShaderMode.Forward:  // in forward rendering all pixels that decals wrote into have to be composited
                                     stencilMask = (int)StencilBitMask.Decals;
@@ -1748,7 +1748,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             bool excludeMotion = hdCamera.frameSettings.objectMotionVectors;
             bool shouldRenderMotionVectorAfterGBuffer = false;
 
-            switch (hdCamera.frameSettings.shaderLitMode)
+            switch (hdCamera.frameSettings.litShaderMode)
             {
                 case LitShaderMode.Forward:
                     using (new ProfilingSample(cmd, "Depth Prepass (forward)", CustomSamplerId.DepthPrepass.GetSampler()))
@@ -1813,7 +1813,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         // during Gbuffer pass. This is handled in the shader and the depth test (equal and no depth write) is done here.
         void RenderGBuffer(CullingResults cull, HDCamera hdCamera, ScriptableRenderContext renderContext, CommandBuffer cmd)
         {
-            if (hdCamera.frameSettings.shaderLitMode != LitShaderMode.Deferred)
+            if (hdCamera.frameSettings.litShaderMode != LitShaderMode.Deferred)
                 return;
 
             using (new ProfilingSample(cmd, m_CurrentDebugDisplaySettings.IsDebugDisplayEnabled() ? "GBuffer Debug" : "GBuffer", CustomSamplerId.GBuffer.GetSampler()))
@@ -1880,7 +1880,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         {
             using (new ProfilingSample(cmd, "DisplayDebug ViewMaterial", CustomSamplerId.DisplayDebugViewMaterial.GetSampler()))
             {
-                if (m_CurrentDebugDisplaySettings.data.materialDebugSettings.IsDebugGBufferEnabled() && hdCamera.frameSettings.shaderLitMode == LitShaderMode.Deferred)
+                if (m_CurrentDebugDisplaySettings.data.materialDebugSettings.IsDebugGBufferEnabled() && hdCamera.frameSettings.litShaderMode == LitShaderMode.Deferred)
                 {
                     using (new ProfilingSample(cmd, "DebugViewMaterialGBuffer", CustomSamplerId.DebugViewMaterialGBuffer.GetSampler()))
                     {
@@ -1976,7 +1976,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
         void RenderDeferredLighting(HDCamera hdCamera, CommandBuffer cmd)
         {
-            if (hdCamera.frameSettings.shaderLitMode != LitShaderMode.Deferred)
+            if (hdCamera.frameSettings.litShaderMode != LitShaderMode.Deferred)
                 return;
 
             m_MRTCache2[0] = m_CameraColorBuffer;
@@ -2090,7 +2090,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                         HDUtils.SetRenderTarget(cmd, hdCamera, hdCamera.frameSettings.msaa ? m_CameraColorMSAABuffer : m_CameraColorBuffer, m_SharedRTManager.GetDepthStencilBuffer(hdCamera.frameSettings.msaa));
                     }
 
-                    var passNames = hdCamera.frameSettings.shaderLitMode == LitShaderMode.Forward
+                    var passNames = hdCamera.frameSettings.litShaderMode == LitShaderMode.Forward
                         ? m_ForwardAndForwardOnlyPassNames
                         : m_ForwardOnlyPassNames;
                     RenderOpaqueRenderList(cullResults, hdCamera, renderContext, cmd, passNames, m_currentRendererConfigurationBakedLighting);
@@ -2643,7 +2643,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
                 // We don't need to clear the GBuffers as scene is rewrite and we are suppose to only access valid data (invalid data are tagged with stencil as StencilLightingUsage.NoLighting),
                 // This is to save some performance
-                if (settings.shaderLitMode == LitShaderMode.Deferred)
+                if (settings.litShaderMode == LitShaderMode.Deferred)
                 {
                     // We still clear in case of debug mode
                     if (m_CurrentDebugDisplaySettings.IsDebugDisplayEnabled())

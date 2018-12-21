@@ -421,7 +421,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         }
 
         public bool GetFeatureVariantsEnabled() =>
-            m_FrameSettings.shaderLitMode == LitShaderMode.Deferred
+            m_FrameSettings.litShaderMode == LitShaderMode.Deferred
             && m_FrameSettings.fptl
             && m_FrameSettings.computeLightEvaluation
             && (m_FrameSettings.computeLightVariants || m_FrameSettings.computeMaterialVariants);

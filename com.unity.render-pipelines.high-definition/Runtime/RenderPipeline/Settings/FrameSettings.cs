@@ -6,154 +6,100 @@ using UnityEngine.Rendering;
 
 namespace UnityEngine.Experimental.Rendering.HDPipeline
 {
-    public static partial class StringExtention
-    {
-        public static string CamelToPascalCaseWithSpace(this string text, bool preserveAcronyms = true)
-        {
-            if (string.IsNullOrWhiteSpace(text))
-                return string.Empty;
-            StringBuilder newText = new StringBuilder(text.Length * 2);
-            newText.Append(char.ToUpper(text[0]));
-            for (int i = 1; i < text.Length; i++)
-            {
-                if (char.IsUpper(text[i]))
-                    if ((text[i - 1] != ' ' && !char.IsUpper(text[i - 1])) ||
-                        (preserveAcronyms && char.IsUpper(text[i - 1]) &&
-                            i < text.Length - 1 && !char.IsUpper(text[i + 1])))
-                        newText.Append(' ');
-                newText.Append(text[i]);
-            }
-            return newText.ToString();
-        }
-    }
-    
-    /// <summary Should only be used on enum value of field to describe aspect in DebugMenu </summary>
-    [AttributeUsage(AttributeTargets.Field)]
-    public class DebugMenuFieldAttribute : Attribute
-    {
-        public enum DisplayType { Checkbox, EnumPopup }
-        public readonly DisplayType type;
-        public readonly string displayedName;
-        public readonly string path;
-        public readonly Type enumTarget;
-        public readonly string[] enumNames;
-
-        public DebugMenuFieldAttribute(string displayedName = null, string path = null, DisplayType type = DisplayType.Checkbox, Type enumTarget = null, [CallerMemberName] string autoDisplayedNameWithPropertyName = null)
-        {
-            if(string.IsNullOrEmpty(displayedName))
-                displayedName = autoDisplayedNameWithPropertyName.CamelToPascalCaseWithSpace();
-            if (string.IsNullOrEmpty(path))
-                path = "";
-            this.type = type;
-            this.displayedName = displayedName;
-            this.path = path;
-            this.enumTarget = enumTarget;
-            enumNames = enumTarget == null ? null : enumTarget.GetEnumNames();
-        }
-    }
-
     public enum LitShaderMode
     {
         Forward,
         Deferred
     }
 
-    public enum FrameSettingsRenderType
-    {
-        Camera,
-        CustomOrBakedReflection,
-        RealtimeReflection
-    }
-
     public enum FrameSettingsField
     {
-        //lighting settings from 0 to 19
-        [DebugMenuField(path: "Light Settings")]
-        Shadow = 0,
-        [DebugMenuField(path: "Light Settings")]
-        ContactShadow = 1,
-        [DebugMenuField(path: "Light Settings")]
-        ShadowMask = 2,
-        [DebugMenuField(path: "Light Settings")]
-        SSR = 3,
-        [DebugMenuField(path: "Light Settings")]
-        SSAO = 4,
-        [DebugMenuField(path: "Light Settings")]
-        SubsurfaceScattering = 5,
-        [DebugMenuField(path: "Light Settings")]
-        Transmission = 6,
-        [DebugMenuField(path: "Light Settings")]
-        AtmosphericScaterring = 7,
-        [DebugMenuField(path: "Light Settings")]
-        Volumetrics = 8,
-        [DebugMenuField(path: "Light Settings")]
-        ReprojectionForVolumetrics = 9,
-        [DebugMenuField(path: "Light Settings")]
-        LightLayers = 10,
-        [DebugMenuField(path: "Light Settings")]
-        MSAA = 11,
-
         //rendering pass from 20 to 39
-        [DebugMenuField(path: "Rendering Passes")]
-        TransparentPrepass = 20,
-        [DebugMenuField(path: "Rendering Passes")]
-        TransparentPostpass = 21,
-        [DebugMenuField(path: "Rendering Passes")]
-        MotionVectors = 22,
-        [DebugMenuField(path: "Rendering Passes")]
-        ObjectMotionVectors = 23,
-        [DebugMenuField(path: "Rendering Passes")]
-        Decals = 24,
-        [DebugMenuField(path: "Rendering Passes")]
-        RoughRefraction = 25,
-        [DebugMenuField(path: "Rendering Passes")]
-        Distortion = 26,
-        [DebugMenuField(path: "Rendering Passes")]
-        Postprocess = 27,
+        [FrameSettingsField(0)]
+        TransparentPrepass = 0,
+        [FrameSettingsField(0)]
+        TransparentPostpass = 1,
+        [FrameSettingsField(0)]
+        MotionVectors = 2,
+        [FrameSettingsField(0)]
+        ObjectMotionVectors = 3,
+        [FrameSettingsField(0)]
+        Decals = 4,
+        [FrameSettingsField(0)]
+        RoughRefraction = 5,
+        [FrameSettingsField(0)]
+        Distortion = 6,
+        [FrameSettingsField(0)]
+        Postprocess = 7,
 
+        //lighting settings from 0 to 19 (grouped in same scope in DebugMenu/Inspector)
+        [FrameSettingsField(0)]
+        Shadow = 20,
+        [FrameSettingsField(0)]
+        ContactShadow = 21,
+        [FrameSettingsField(0)]
+        ShadowMask = 22,
+        [FrameSettingsField(0)]
+        SSR = 23,
+        [FrameSettingsField(0)]
+        SSAO = 24,
+        [FrameSettingsField(0)]
+        SubsurfaceScattering = 25,
+        [FrameSettingsField(0)]
+        Transmission = 26,
+        [FrameSettingsField(0)]
+        AtmosphericScaterring = 27,
+        [FrameSettingsField(0)]
+        Volumetrics = 28,
+        [FrameSettingsField(0)]
+        ReprojectionForVolumetrics = 29,
+        [FrameSettingsField(0)]
+        LightLayers = 30,
+        [FrameSettingsField(0)]
+        MSAA = 31,
+        
         //rendering settings from 40 to 59
-        [DebugMenuField(path: "Rendering Settings", type: DebugMenuFieldAttribute.DisplayType.EnumPopup, enumTarget: typeof(LitShaderMode))]
+        [FrameSettingsField(1, type: FrameSettingsFieldAttribute.DisplayType.BoolAsEnumPopup, targetType: typeof(LitShaderMode))]
         ShaderLitMode = 40,
-        [DebugMenuField(path: "Rendering Settings")]
+        [FrameSettingsField(1)]
         DepthPrepassWithDeferredRendering = 41,
-        [DebugMenuField(path: "Rendering Settings")]
+        [FrameSettingsField(1)]
         OpaqueObjects = 42,
-        [DebugMenuField(path: "Rendering Settings")]
+        [FrameSettingsField(1)]
         TransparentObjects = 43,
-        [DebugMenuField(path: "Rendering Settings")]
+        [FrameSettingsField(1)]
         RealtimePlanarReflection = 44,
 
         //async settings from 60 to 79
-        [DebugMenuField(path: "Async Compute Settings")]
+        [FrameSettingsField(2)]
         AsyncCompute = 60,
-        [DebugMenuField(path: "Async Compute Settings")]
+        [FrameSettingsField(2)]
         LightListAsync = 61,
-        [DebugMenuField(path: "Async Compute Settings")]
+        [FrameSettingsField(2)]
         SSRAsync = 62,
-        [DebugMenuField(path: "Async Compute Settings")]
+        [FrameSettingsField(2)]
         SSAOAsync = 63,
-        [DebugMenuField(path: "Async Compute Settings")]
+        [FrameSettingsField(2)]
         ContactShadowsAsync = 64,
-        [DebugMenuField(path: "Async Compute Settings")]
+        [FrameSettingsField(2)]
         VolumeVoxelizationsAsync = 65,
 
         //from 80 to 119 : space for new scopes
 
         //lightLoop settings from 120 to 127
-        [DebugMenuField(path: "Light Loop Settings")]
+        [FrameSettingsField(3)]
         FptlForForwardOpaque = 120,
-        [DebugMenuField(path: "Light Loop Settings")]
+        [FrameSettingsField(3)]
         BigTilePrepass = 121,
-        [DebugMenuField(path: "Light Loop Settings")]
+        [FrameSettingsField(3)]
         ComputeLightEvaluation = 122,
-        [DebugMenuField(path: "Light Loop Settings")]
+        [FrameSettingsField(3)]
         ComputeLightVariants = 123,
-        [DebugMenuField(path: "Light Loop Settings")]
+        [FrameSettingsField(3)]
         ComputeMaterialVariants = 124,
-        [DebugMenuField(path: "Light Loop Settings")]
+        [FrameSettingsField(3)]
         TileAndCluster = 125,
-        Reflection = 126, //set by engine, not for DebugMenu
-        DebugMenuTriggerReset = 127 //set by engine for DebugMenu
+        Reflection = 126, //set by engine, not for DebugMenu/Inspector
 
         //only 128 booleans saved. For more, change the CheapBitArray used
     }
@@ -163,11 +109,9 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
     public struct FrameSettingsOverrideMask
     {
         [SerializeField]
-        public CheapBitArray128 mask;
+        public BitArray128 mask;
     }
-
-   
-
+    
     // The settings here are per frame settings.
     // Each camera must have its own per frame settings
     [Serializable]
@@ -176,7 +120,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
     {
         public static readonly FrameSettings defaultCamera = new FrameSettings()
         {
-            bitDatas = new CheapBitArray128(new uint[] {
+            bitDatas = new BitArray128(new uint[] {
                 (uint)FrameSettingsField.Shadow,
                 (uint)FrameSettingsField.ContactShadow,
                 (uint)FrameSettingsField.ShadowMask,
@@ -216,7 +160,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         };
         public static readonly FrameSettings defaultRealtimeReflectionProbe = new FrameSettings()
         {
-            bitDatas = new CheapBitArray128(new uint[] {
+            bitDatas = new BitArray128(new uint[] {
                 (uint)FrameSettingsField.Shadow,
                 //(uint)FrameSettingsField.ContactShadow,
                 //(uint)FrameSettingsField.ShadowMask,
@@ -257,197 +201,18 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         public static readonly FrameSettings defaultCustomOrBakeReflectionProbe = defaultCamera;
 
         [SerializeField]
-        CheapBitArray128 bitDatas;
+        BitArray128 bitDatas;
         
-        public LitShaderMode shaderLitMode
+        public LitShaderMode litShaderMode
         {
-            get => bitDatas[(int)FrameSettingsField.ShaderLitMode] ? LitShaderMode.Deferred : LitShaderMode.Forward;
-            set => bitDatas[(int)FrameSettingsField.ShaderLitMode] = value == LitShaderMode.Deferred;
-        }
-        public bool shadow
-        {
-            get => bitDatas[(int)FrameSettingsField.Shadow];
-            set => bitDatas[(int)FrameSettingsField.Shadow] = value;
-        }
-        public bool contactShadows
-        {
-            get => bitDatas[(int)FrameSettingsField.ContactShadow];
-            set => bitDatas[(int)FrameSettingsField.ContactShadow] = value;
-        }
-        public bool shadowMask
-        {
-            get => bitDatas[(int)FrameSettingsField.ShadowMask];
-            set => bitDatas[(int)FrameSettingsField.ShadowMask] = value;
-        }
-        public bool ssr
-        {
-            get => bitDatas[(int)FrameSettingsField.SSR];
-            set => bitDatas[(int)FrameSettingsField.SSR] = value;
-        }
-        public bool ssao
-        {
-            get => bitDatas[(int)FrameSettingsField.SSAO];
-            set => bitDatas[(int)FrameSettingsField.SSAO] = value;
-        }
-        public bool subsurfaceScattering
-        {
-            get => bitDatas[(int)FrameSettingsField.SubsurfaceScattering];
-            set => bitDatas[(int)FrameSettingsField.SubsurfaceScattering] = value;
-        }
-        public bool transmission
-        {
-            get => bitDatas[(int)FrameSettingsField.Transmission];
-            set => bitDatas[(int)FrameSettingsField.Transmission] = value;
-        }
-        public bool atmosphericScattering
-        {
-            get => bitDatas[(int)FrameSettingsField.AtmosphericScaterring];
-            set => bitDatas[(int)FrameSettingsField.AtmosphericScaterring] = value;
-        }
-        public bool volumetrics
-        {
-            get => bitDatas[(int)FrameSettingsField.Volumetrics];
-            set => bitDatas[(int)FrameSettingsField.Volumetrics] = value;
-        }
-        public bool reprojectionForVolumetrics
-        {
-            get => bitDatas[(int)FrameSettingsField.ReprojectionForVolumetrics];
-            set => bitDatas[(int)FrameSettingsField.ReprojectionForVolumetrics] = value;
-        }
-        public bool lightLayers
-        {
-            get => bitDatas[(int)FrameSettingsField.LightLayers];
-            set => bitDatas[(int)FrameSettingsField.LightLayers] = value;
-        }
-        public bool depthPrepassWithDeferredRendering
-        {
-            get => bitDatas[(int)FrameSettingsField.DepthPrepassWithDeferredRendering];
-            set => bitDatas[(int)FrameSettingsField.DepthPrepassWithDeferredRendering] = value;
-        }
-        public bool transparentPrepass
-        {
-            get => bitDatas[(int)FrameSettingsField.TransparentPrepass];
-            set => bitDatas[(int)FrameSettingsField.TransparentPrepass] = value;
-        }
-        public bool motionVectors
-        {
-            get => bitDatas[(int)FrameSettingsField.MotionVectors];
-            set => bitDatas[(int)FrameSettingsField.MotionVectors] = value;
-        }
-        public bool objectMotionVectors
-        {
-            get => bitDatas[(int)FrameSettingsField.ObjectMotionVectors];
-            set => bitDatas[(int)FrameSettingsField.ObjectMotionVectors] = value;
-        }
-        public bool decals
-        {
-            get => bitDatas[(int)FrameSettingsField.Decals];
-            set => bitDatas[(int)FrameSettingsField.Decals] = value;
-        }
-        public bool roughRefraction
-        {
-            get => bitDatas[(int)FrameSettingsField.RoughRefraction];
-            set => bitDatas[(int)FrameSettingsField.RoughRefraction] = value;
-        }
-        public bool transparentPostpass
-        {
-            get => bitDatas[(int)FrameSettingsField.TransparentPostpass];
-            set => bitDatas[(int)FrameSettingsField.TransparentPostpass] = value;
-        }
-        public bool distortion
-        {
-            get => bitDatas[(int)FrameSettingsField.Distortion];
-            set => bitDatas[(int)FrameSettingsField.Distortion] = value;
-        }
-        public bool postprocess
-        {
-            get => bitDatas[(int)FrameSettingsField.Postprocess];
-            set => bitDatas[(int)FrameSettingsField.Postprocess] = value;
-        }
-        public bool opaqueObjects
-        {
-            get => bitDatas[(int)FrameSettingsField.OpaqueObjects];
-            set => bitDatas[(int)FrameSettingsField.OpaqueObjects] = value;
-        }
-        public bool transparentObjects
-        {
-            get => bitDatas[(int)FrameSettingsField.TransparentObjects];
-            set => bitDatas[(int)FrameSettingsField.TransparentObjects] = value;
-        }
-        public bool realtimePlanarReflection
-        {
-            get => bitDatas[(int)FrameSettingsField.RealtimePlanarReflection];
-            set => bitDatas[(int)FrameSettingsField.RealtimePlanarReflection] = value;
-        }
-        public bool asyncCompute
-        {
-            get => bitDatas[(int)FrameSettingsField.AsyncCompute];
-            set => bitDatas[(int)FrameSettingsField.AsyncCompute] = value;
-        }
-        public bool lightListAsync
-        {
-            get => bitDatas[(int)FrameSettingsField.LightListAsync];
-            set => bitDatas[(int)FrameSettingsField.LightListAsync] = value;
-        }
-        public bool ssaoAsync
-        {
-            get => bitDatas[(int)FrameSettingsField.SSAOAsync];
-            set => bitDatas[(int)FrameSettingsField.SSAOAsync] = value;
-        }
-        public bool ssrAsync
-        {
-            get => bitDatas[(int)FrameSettingsField.SSRAsync];
-            set => bitDatas[(int)FrameSettingsField.SSRAsync] = value;
-        }
-        public bool contactShadowsAsync
-        {
-            get => bitDatas[(int)FrameSettingsField.ContactShadowsAsync];
-            set => bitDatas[(int)FrameSettingsField.ContactShadowsAsync] = value;
-        }
-        public bool volumeVoxelizationAsync
-        {
-            get => bitDatas[(int)FrameSettingsField.VolumeVoxelizationsAsync];
-            set => bitDatas[(int)FrameSettingsField.VolumeVoxelizationsAsync] = value;
-        }
-        public bool msaa
-        {
-            get => bitDatas[(int)FrameSettingsField.MSAA];
-            set => bitDatas[(int)FrameSettingsField.MSAA] = value;
-        }
-        public bool tileAndCluster
-        {
-            get => bitDatas[(int)FrameSettingsField.TileAndCluster];
-            set => bitDatas[(int)FrameSettingsField.TileAndCluster] = value;
-        }
-        public bool computeLightEvaluation
-        {
-            get => bitDatas[(int)FrameSettingsField.ComputeLightEvaluation];
-            set => bitDatas[(int)FrameSettingsField.ComputeLightEvaluation] = value;
-        }
-        public bool computeLightVariants
-        {
-            get => bitDatas[(int)FrameSettingsField.ComputeLightVariants];
-            set => bitDatas[(int)FrameSettingsField.ComputeLightVariants] = value;
-        }
-        public bool computeMaterialVariants
-        {
-            get => bitDatas[(int)FrameSettingsField.ComputeMaterialVariants];
-            set => bitDatas[(int)FrameSettingsField.ComputeMaterialVariants] = value;
-        }
-        // Deferred opaque always use FPTL, forward opaque can use FPTL or cluster, transparent always use cluster
-        // When MSAA is enabled, we only support cluster (Fptl is too slow with MSAA), and we don't support MSAA for deferred path (mean it is ok to keep fptl)
-        public bool fptlForForwardOpaque
-        {
-            get => bitDatas[(int)FrameSettingsField.FptlForForwardOpaque];
-            set => bitDatas[(int)FrameSettingsField.FptlForForwardOpaque] = value;
-        }
-        public bool bigTilePrepass
-        {
-            get => bitDatas[(int)FrameSettingsField.BigTilePrepass];
-            set => bitDatas[(int)FrameSettingsField.BigTilePrepass] = value;
+            get => bitDatas[(uint)FrameSettingsField.ShaderLitMode] ? LitShaderMode.Deferred : LitShaderMode.Forward;
+            set => bitDatas[(uint)FrameSettingsField.ShaderLitMode] = value == LitShaderMode.Deferred;
         }
 
-        public bool fptl => shaderLitMode == LitShaderMode.Deferred || bitDatas[(int)FrameSettingsField.FptlForForwardOpaque];
+        public bool IsEnable(FrameSettingsField field) => bitDatas[(uint)field];
+        public void SetEnable(FrameSettingsField field, bool value) => bitDatas[(uint)field] = value;
+        
+        public bool fptl => litShaderMode == LitShaderMode.Deferred || bitDatas[(int)FrameSettingsField.FptlForForwardOpaque];
         public float specularGlobalDimmer => bitDatas[(int)FrameSettingsField.Reflection] ? 1f : 0f;
         
         public bool BuildLightListRunsAsync() => SystemInfo.supportsAsyncCompute && bitDatas[(int)FrameSettingsField.AsyncCompute] && bitDatas[(int)FrameSettingsField.LightListAsync];
@@ -462,15 +227,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             overridedFrameSettings.bitDatas = (overridingFrameSettings.bitDatas & frameSettingsOverideMask.mask) | (~frameSettingsOverideMask.mask & overridedFrameSettings.bitDatas);
 
             //override remaining values here if needed
-
-
-            //refresh enums for DebugMenu
-            //[TODO: save this value in serialized element of DebugMenu once serialization is fixed]
-            if (frameSettingsOverideMask.mask[(int)FrameSettingsField.ShaderLitMode])
-            {
-                // the property update the enum index each time. Force to pass by that part of the code when overriding it
-                overridedFrameSettings.shaderLitMode = overridedFrameSettings.shaderLitMode;
-            }
         }
         
         public static void Sanitize(ref FrameSettings sanitazedFrameSettings, Camera camera, RenderPipelineSettings renderPipelineSettings)
@@ -490,17 +246,17 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 // Stereo deferred rendering still has the following problems:
                 // VR TODO: Dispatch tile light-list compute per-eye
                 // VR TODO: Update compute lighting shaders for stereo
-                sanitazedFrameSettings.shaderLitMode = LitShaderMode.Forward;
+                sanitazedFrameSettings.litShaderMode = LitShaderMode.Forward;
             }
             else
             {
                 switch (renderPipelineSettings.supportedLitShaderMode)
                 {
                     case RenderPipelineSettings.SupportedLitShaderMode.ForwardOnly:
-                        sanitazedFrameSettings.shaderLitMode = LitShaderMode.Forward;
+                        sanitazedFrameSettings.litShaderMode = LitShaderMode.Forward;
                         break;
                     case RenderPipelineSettings.SupportedLitShaderMode.DeferredOnly:
-                        sanitazedFrameSettings.shaderLitMode = LitShaderMode.Deferred;
+                        sanitazedFrameSettings.litShaderMode = LitShaderMode.Deferred;
                         break;
                     case RenderPipelineSettings.SupportedLitShaderMode.Both:
                         //nothing to do: keep previous value
@@ -514,7 +270,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
             //MSAA only supported in forward
             // TODO: The work will be implemented piecemeal to support all passes
-            bool msaa = sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.MSAA] &= renderPipelineSettings.supportMSAA && sanitazedFrameSettings.shaderLitMode == LitShaderMode.Forward;
+            bool msaa = sanitazedFrameSettings.bitDatas[(int)FrameSettingsField.MSAA] &= renderPipelineSettings.supportMSAA && sanitazedFrameSettings.litShaderMode == LitShaderMode.Forward;
 
             // VR TODO: The work will be implemented piecemeal to support all passes
             // No recursive reflections
@@ -576,181 +332,5 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         public static bool operator !=(FrameSettings a, FrameSettings b) => a.bitDatas != b.bitDatas;
         public override bool Equals(object obj) => (obj is FrameSettings) && bitDatas.Equals((FrameSettings)obj);
         public override int GetHashCode() => -1690259335 + bitDatas.GetHashCode();
-    }
-
-
-    public struct FrameSettingsHistory : IDebugData
-    {
-        public FrameSettingsRenderType defaultType;
-        public FrameSettings custom;
-        public FrameSettingsOverrideMask customMask;
-        public FrameSettings sanitazed;
-        public FrameSettings debug;
-        bool m_DebugMenuResetTriggered;
-        int m_LitShaderModeEnumIndex;
-
-        internal static Dictionary<Camera, FrameSettingsHistory> frameSettingsHistory = new Dictionary<Camera, FrameSettingsHistory>();
-
-        public static void AggregateFrameSettings(ref FrameSettings aggregatedFrameSettings, Camera camera, HDAdditionalCameraData additionalData, HDRenderPipelineAsset hdrpAsset)
-        {
-            FrameSettingsHistory history = new FrameSettingsHistory();
-            history.defaultType = additionalData ? additionalData.defaultFrameSettings : FrameSettingsRenderType.Camera;
-            aggregatedFrameSettings = hdrpAsset.GetDefaultFrameSettings(history.defaultType);
-            if (additionalData && additionalData.customRenderingSettings)
-            {
-                FrameSettings.Override(ref aggregatedFrameSettings, additionalData.renderingPathCustomFrameSettings, additionalData.renderingPathCustomOverrideFrameSettings);
-                history.customMask = additionalData.renderingPathCustomOverrideFrameSettings;
-            }
-            history.custom = aggregatedFrameSettings;
-            FrameSettings.Sanitize(ref aggregatedFrameSettings, camera, hdrpAsset.GetRenderPipelineSettings());
-            
-            bool dirty =
-                history.sanitazed != aggregatedFrameSettings                // updated components/asset
-                || !frameSettingsHistory.ContainsKey(camera)                // no history yet
-                || frameSettingsHistory[camera].m_DebugMenuResetTriggered;  // reset requested by debug menu on previous frame
-
-            history.sanitazed = aggregatedFrameSettings;
-
-            if (dirty)
-            {
-                history.debug = history.sanitazed;
-                switch (history.debug.shaderLitMode)
-                {
-                    case LitShaderMode.Forward:
-                        history.m_LitShaderModeEnumIndex = 0;
-                        break;
-                    case LitShaderMode.Deferred:
-                        history.m_LitShaderModeEnumIndex = 1;
-                        break;
-                    default:
-                        throw new ArgumentException("Unknown LitShaderMode");
-                }
-            }
-
-            aggregatedFrameSettings = history.debug;
-            frameSettingsHistory[camera] = history;
-        }
-        
-        ref FrameSettingsHistory persistantFrameSettingsHistory
-        {
-            get
-            {
-                unsafe
-                {
-                    fixed (FrameSettingsHistory* pthis = &this)
-                        return ref *pthis;
-                }
-            }
-        }
-
-        static void RegisterDebug(string menuName, FrameSettingsHistory frameSettings)
-        {
-            var persistant = frameSettings.persistantFrameSettingsHistory;
-            List<DebugUI.Widget> widgets = new List<DebugUI.Widget>();
-            widgets.AddRange(
-            new DebugUI.Widget[]
-            {
-                new DebugUI.Foldout
-                {
-                    displayName = "Rendering Passes",
-                    children =
-                    {
-                        new DebugUI.BoolField { displayName = "Enable Transparent Prepass", getter = () => persistant.debug.transparentPrepass, setter = value => persistant.debug.transparentPrepass = value },
-                        new DebugUI.BoolField { displayName = "Enable Transparent Postpass", getter = () => persistant.debug.transparentPostpass, setter = value => persistant.debug.transparentPostpass = value },
-                        new DebugUI.BoolField { displayName = "Enable Motion Vectors", getter = () => persistant.debug.motionVectors, setter = value => persistant.debug.motionVectors = value },
-                        new DebugUI.BoolField { displayName = "  Enable Object Motion Vectors", getter = () => persistant.debug.objectMotionVectors, setter = value => persistant.debug.objectMotionVectors = value },
-                        new DebugUI.BoolField { displayName = "Enable DBuffer", getter = () => persistant.debug.decals, setter = value => persistant.debug.decals = value },
-                        new DebugUI.BoolField { displayName = "Enable Rough Refraction", getter = () => persistant.debug.roughRefraction, setter = value => persistant.debug.roughRefraction = value },
-                        new DebugUI.BoolField { displayName = "Enable Distortion", getter = () => persistant.debug.distortion, setter = value => persistant.debug.distortion = value },
-                        new DebugUI.BoolField { displayName = "Enable Postprocess", getter = () => persistant.debug.postprocess, setter = value => persistant.debug.postprocess = value },
-                    }
-                },
-                new DebugUI.Foldout
-                {
-                    displayName = "Rendering Settings",
-                    children =
-                    {
-                        new DebugUI.EnumField { displayName = "Lit Shader Mode", getter = () => (int)persistant.debug.shaderLitMode, setter = value => persistant.debug.shaderLitMode = (LitShaderMode)value, autoEnum = typeof(LitShaderMode), getIndex = () => persistant.m_LitShaderModeEnumIndex, setIndex = value => persistant.m_LitShaderModeEnumIndex = value },
-                        new DebugUI.BoolField { displayName = "Deferred Depth Prepass", getter = () => persistant.debug.depthPrepassWithDeferredRendering, setter = value => persistant.debug.depthPrepassWithDeferredRendering = value },
-                        new DebugUI.BoolField { displayName = "Enable Opaque Objects", getter = () => persistant.debug.opaqueObjects, setter = value => persistant.debug.opaqueObjects = value },
-                        new DebugUI.BoolField { displayName = "Enable Transparent Objects", getter = () => persistant.debug.transparentObjects, setter = value => persistant.debug.transparentObjects = value },
-                        new DebugUI.BoolField { displayName = "Enable Realtime Planar Reflection", getter = () => persistant.debug.realtimePlanarReflection, setter = value => persistant.debug.realtimePlanarReflection = value },
-                        new DebugUI.BoolField { displayName = "Enable MSAA", getter = () => persistant.debug.msaa, setter = value => persistant.debug.msaa = value },
-                    }
-                },
-                new DebugUI.Foldout
-                {
-                    displayName = "Lighting Settings",
-                    children =
-                    {
-                        new DebugUI.BoolField { displayName = "Enable SSR", getter = () => persistant.debug.ssr, setter = value => persistant.debug.ssr = value },
-                        new DebugUI.BoolField { displayName = "Enable SSAO", getter = () => persistant.debug.ssao, setter = value => persistant.debug.ssao = value },
-                        new DebugUI.BoolField { displayName = "Enable SubsurfaceScattering", getter = () => persistant.debug.subsurfaceScattering, setter = value => persistant.debug.subsurfaceScattering = value },
-                        new DebugUI.BoolField { displayName = "Enable Transmission", getter = () => persistant.debug.transmission, setter = value => persistant.debug.transmission = value },
-                        new DebugUI.BoolField { displayName = "Enable Shadows", getter = () => persistant.debug.shadow, setter = value => persistant.debug.shadow = value },
-                        new DebugUI.BoolField { displayName = "Enable Contact Shadows", getter = () => persistant.debug.contactShadows, setter = value => persistant.debug.contactShadows = value },
-                        new DebugUI.BoolField { displayName = "Enable ShadowMask", getter = () => persistant.debug.shadowMask, setter = value => persistant.debug.shadowMask = value },
-                        new DebugUI.BoolField { displayName = "Enable Atmospheric Scattering", getter = () => persistant.debug.atmosphericScattering, setter = value => persistant.debug.atmosphericScattering = value },
-                        new DebugUI.BoolField { displayName = "Enable Volumetrics", getter = () => persistant.debug.volumetrics, setter = value => persistant.debug.volumetrics = value },
-                        new DebugUI.BoolField { displayName = "Enable Reprojection For Volumetrics", getter = () => persistant.debug.reprojectionForVolumetrics, setter = value => persistant.debug.reprojectionForVolumetrics = value },
-                        new DebugUI.BoolField { displayName = "Enable LightLayers", getter = () => persistant.debug.lightLayers, setter = value => persistant.debug.lightLayers = value },
-                    }
-                },
-                new DebugUI.Foldout
-                {
-                    displayName = "Async Compute Settings",
-                    children =
-                    {
-                        new DebugUI.BoolField { displayName = "Enable Async Compute", getter = () => persistant.debug.asyncCompute, setter = value => persistant.debug.asyncCompute = value },
-                        new DebugUI.BoolField { displayName = "Run Build Light List Async", getter = () => persistant.debug.lightListAsync, setter = value => persistant.debug.lightListAsync = value },
-                        new DebugUI.BoolField { displayName = "Run SSR Async", getter = () => persistant.debug.ssrAsync, setter = value => persistant.debug.ssrAsync = value },
-                        new DebugUI.BoolField { displayName = "Run SSAO Async", getter = () => persistant.debug.ssaoAsync, setter = value => persistant.debug.ssaoAsync = value },
-                        new DebugUI.BoolField { displayName = "Run Contact Shadows Async", getter = () => persistant.debug.contactShadowsAsync, setter = value => persistant.debug.contactShadowsAsync = value },
-                        new DebugUI.BoolField { displayName = "Run Volume Voxelization Async", getter = () => persistant.debug.volumeVoxelizationAsync, setter = value => persistant.debug.volumeVoxelizationAsync = value },
-                    }
-                },
-                new DebugUI.Foldout
-                {
-                    displayName = "Light Loop Settings",
-                    children =
-                    {
-                        // Uncomment if you re-enable LIGHTLOOP_SINGLE_PASS multi_compile in lit*.shader
-                        //new DebugUI.BoolField { displayName = "Enable Tile/Cluster", getter = () => persistant.debug.enableTileAndCluster, setter = value => persistant.debug.enableTileAndCluster = value },
-                        new DebugUI.BoolField { displayName = "Enable Fptl for Forward Opaque", getter = () => persistant.debug.fptlForForwardOpaque, setter = value => persistant.debug.fptlForForwardOpaque = value },
-                        new DebugUI.BoolField { displayName = "Enable Big Tile", getter = () => persistant.debug.bigTilePrepass, setter = value => persistant.debug.bigTilePrepass = value },
-                        new DebugUI.BoolField { displayName = "Enable Compute Lighting", getter = () => persistant.debug.computeLightEvaluation, setter = value => persistant.debug.computeLightEvaluation = value },
-                        new DebugUI.BoolField { displayName = "Enable Light Classification", getter = () => persistant.debug.computeLightVariants, setter = value => persistant.debug.computeLightVariants = value },
-                        new DebugUI.BoolField { displayName = "Enable Material Classification", getter = () => persistant.debug.computeMaterialVariants, setter = value => persistant.debug.computeMaterialVariants = value }
-                    }
-                }
-            });
-
-            var panel = DebugManager.instance.GetPanel(menuName, true);
-            panel.children.Add(widgets.ToArray());
-        }
-
-        public static IDebugData RegisterDebug(Camera camera, HDAdditionalCameraData additionalCameraData)
-        {
-            HDRenderPipelineAsset hdrpAsset = GraphicsSettings.renderPipelineAsset as HDRenderPipelineAsset;
-            Assertions.Assert.IsNotNull(hdrpAsset);
-
-            // complete frame settings history is required for displaying debug menu.
-            // AggregateFrameSettings will finish the registration if it is not yet registered
-            FrameSettings registering = new FrameSettings();
-            AggregateFrameSettings(ref registering, camera, additionalCameraData, hdrpAsset);
-            RegisterDebug(camera.name, frameSettingsHistory[camera]);
-            return frameSettingsHistory[camera];
-        }
-
-        public static void UnRegisterDebug(Camera camera)
-        {
-            DebugManager.instance.RemovePanel(camera.name);
-            frameSettingsHistory.Remove(camera);
-        }
-
-        public static IDebugData GetPersistantDebugData(Camera camera) => frameSettingsHistory[camera].persistantFrameSettingsHistory;
-
-        void TriggerReset() => m_DebugMenuResetTriggered = true;
-        Action IDebugData.GetReset() => TriggerReset;
     }
 }

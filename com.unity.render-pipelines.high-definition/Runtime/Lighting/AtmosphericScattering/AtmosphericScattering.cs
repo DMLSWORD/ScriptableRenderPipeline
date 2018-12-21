@@ -30,7 +30,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
         public void PushShaderParametersCommon(HDCamera hdCamera, CommandBuffer cmd, FogType type)
         {
-            Debug.Assert(hdCamera.frameSettings.atmosphericScattering);
+            Debug.Assert(hdCamera.frameSettings.IsEnable(FrameSettingsField.AtmosphericScaterring));
 
             cmd.SetGlobalInt(HDShaderIDs._AtmosphericScatteringType, (int)type);
             cmd.SetGlobalFloat(HDShaderIDs._MaxFogDistance, maxFogDistance.value);
